@@ -5,7 +5,7 @@
       <div>
         <img :src="bear"/>
       </div>
-      <h3 class="title">Tumo Blog</h3>
+      <h3 class="title">ZiLin Blog</h3>
       <el-form-item prop="username">
                 <span class="svg-container">
                   <svg-icon icon-class="user"/>
@@ -89,7 +89,7 @@
           if (valid) {
             this.loading = true
             this.$store.dispatch('user/login', this.loginForm).then(() => {
-              this.loading = false
+              this.loadijsng = false
               this.$router.push({path: '/admin/dashboard'})
             }).catch(() => {
               this.loading = false
