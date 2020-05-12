@@ -5,7 +5,7 @@
       <div>
         <img :src="bear"/>
       </div>
-      <h3 class="title">ZiLin Blog</h3>
+      <h3 class="title">Zilin's Blog</h3>
       <el-form-item prop="username">
                 <span class="svg-container">
                   <svg-icon icon-class="user"/>
@@ -38,19 +38,22 @@
 </template>
 
 <script>
+  import normal from '@/assets/login/stand.png'
+  import blindfold from '@/assets/login/close_eyes.png'
+  import greeting from '@/assets/login/hello.png'
   export default {
     name: 'Login',
     data() {
       return {
         img: {
-          normal: 'http://cdn.tycoding.cn/normal.0447fe9.png',
-          blindfold: 'http://cdn.tycoding.cn/blindfold.58ce423.png',
-          greeting: 'http://cdn.tycoding.cn/greeting.1415c1c.png'
+          normal: normal,
+          blindfold: blindfold,
+          greeting: greeting
         },
-        bear: 'http://cdn.tycoding.cn/normal.0447fe9.png',
+        bear: normal,
 
         loginForm: {
-          username: 'tycoding',
+          username: 'wangzilin',
           password: '123456'
         },
         loading: false,
@@ -147,8 +150,10 @@
     position: fixed;
     height: 100%;
     width: 100%;
-    background-color: #b8e5f8;
-    background-image: url("http://cdn.tycoding.cn/db29b0fbd2f78dd8c1b7.db29b0f.png");
+    /*background-color: #b8e5f8;*/
+    background-size:cover;
+    background-position: 50% 80%;
+    background-image: url("~@/assets/login/background.png");
     .login-form {
       position: absolute;
       left: 0;
@@ -163,7 +168,7 @@
         position: absolute;
         top: 0;
         left: 50%;
-        width: 10rem;
+        width: 5rem;
         -webkit-transform: translate(-50%, -83%);
         transform: translate(-50%, -83%);
         z-index: 1;
