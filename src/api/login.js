@@ -14,7 +14,7 @@ export function login(form) {
 export function getInfo() {
   return request({
     url: '/api/user/info',
-    method: 'get'
+    method: 'post'
   })
 }
 
