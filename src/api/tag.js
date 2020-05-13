@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function getList(data, query) {
   return request({
-    url: `/api/tag/list?page=${query.page}&limit=${query.limit}`,
+    url: `/api/article/tag?page=${query.page}&limit=${query.limit}`,
     method: 'post',
     data
   })
@@ -10,21 +10,21 @@ export function getList(data, query) {
 
 export function getAllTag() {
   return request({
-    url: `/api/tag/findAll`,
+    url: `/api/article/tag`,
     method: 'get'
   })
 }
 
 export function findById(id) {
   return request({
-    url: `/api/tag/${id}`,
+    url: `/api/article/tag/${id}`,
     method: 'get'
   })
 }
 
 export function update(data) {
   return request({
-    url: `/api/tag`,
+    url: `/api/article/tag`,
     method: 'put',
     data
   })

@@ -22,7 +22,7 @@
       size="mini"
       highlight-current-row
     >
-      <el-table-column align="center" label="ID" width="95">
+      <el-table-column align="center" label="序号" width="95">
         <template slot-scope="scope">
           {{ scope.row.id }}
         </template>
@@ -54,12 +54,14 @@
       </el-table-column>
       <el-table-column class-name="status-col" label="状态" width="110" align="center">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.state == '1' ? 'success' : 'warning'">{{ scope.row.state == '1' ? '已发布' : '未发布' }}</el-tag>
+<!--          <el-tag :type="scope.row.state == '1' ? 'success' : 'warning'">{{ scope.row.state == '1' ? '已发布' : '未发布' }}</el-tag>-->
+          {{scope.row.state}}
         </template>
       </el-table-column>
       <el-table-column label="标签" width="110" align="center">
         <template slot-scope="scope">
-          <el-tag type="primary" v-for="tag in scope.row.tags">{{tag.name}}</el-tag>
+          <!--这后面的:key="t"要有, 否则会有警告-->
+          <el-tag type="primary" v-for="t in scope.row.tag" :key="t">{{t}}</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
@@ -108,7 +110,7 @@
       fetchData() {
         this.listLoading = true
         getArticleList(this.query, this.listQuery).then(response => {
-          this.list = response.data.rows
+          this.list = response.data
           this.listLoading = false
           this.total = response.data.total
         })

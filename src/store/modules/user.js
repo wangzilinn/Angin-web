@@ -3,7 +3,7 @@ import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 import store from "../index";
 
-const state = {
+export const userInfo = {
   token: getToken(),
   name: '',
   avatar: ''
@@ -80,7 +80,7 @@ const actions = {
 
 export default {
   namespaced: true,
-  state,
+  state: userInfo,
   mutations,
   actions
 }

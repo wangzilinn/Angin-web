@@ -6,13 +6,15 @@
           <el-input v-model="form.title"></el-input>
         </el-form-item>
         <el-form-item label="文章分类" style="display: inline-block">
+          <!--这里直接把category存进去了-->
           <el-select v-model="form.category" placeholder="请选择文章分类" style="width:400px">
-            <el-option v-for="item in categoryList" :label="item.name" :key="item.id" :value="item.id"></el-option>
+            <!--value值是选中的那个-->
+            <el-option v-for="item in categoryList" :label="item.name" :key="item.id" :value="item.name"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="文章标签" style="display: inline-block">
-          <el-select multiple v-model="tags" placeholder="请选择文章标签" style="width: 500px">
-            <el-option v-for="item in tagList" :label="item.name" :key="item.id" :value="item.id"></el-option>
+          <el-select multiple v-model="articleTags" placeholder="请选择文章标签" style="width: 500px">
+            <el-option v-for="item in tagList" :label="item.name" :key="item.id" :value="item.name"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="文章内容">
@@ -43,11 +45,12 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
-  import { add } from '@/api/article'
+  import {mapGetters} from 'vuex'
+  import {add} from '@/api/article'
   import {getAllCategory} from '@/api/category'
   import {getAllTag} from "@/api/tag";
   import MarkdownEditor from './components/markdown'
+  import {userInfo} from '@/store/modules/user.js'
 
   export default {
     name: "add",
@@ -61,7 +64,7 @@
     data() {
       return {
         form: {},
-        tags: [],
+        articleTags: [],
         tokenHeader: {},
         categoryList: null,
         tagList: null,
@@ -83,11 +86,11 @@
 
       clearForm() {
         this.form = {}
-        this.tags = []
+        this.articleTags = []
       },
 
       //markdown编辑器数据变化时触发
-      editor(val){
+      editor(val) {
         this.form.contentMd = val.md;
         this.form.content = val.html;
       },
@@ -113,19 +116,19 @@
         }
         return isJPG && isLt2M;
       },
-
+      //提交草稿
       draftSubmit() {
-        if (this.tags != null || this.tags.length > 0) {
+        if (this.articleTags != null || this.articleTags.length > 0) {
           let tags = []
-          this.tags.forEach(t => {
+          this.articleTags.forEach(t => {
             tags.push({id: t})
           })
-          this.form.tags = tags
+          this.form.tag = tags
         } else {
-          this.form.tags = null
+          this.form.tag = null
         }
 
-        this.form.state = 0
+        this.form.state = 'release'
         add(this.form).then(res => {
           console.log(res)
           this.$message.success(res.msg)
@@ -133,18 +136,16 @@
         })
 
       },
+      //提交正式版
       releaseSubmit() {
-        if (this.tags != null || this.tags.length > 0) {
-          let tags = []
-          this.tags.forEach(t => {
-            tags.push({id: t})
-          })
-          this.form.tags = tags
+        //装入标签, form是最终提交的表单
+        if (this.articleTags != null || this.articleTags.length > 0) {
+          this.form.tag = this.articleTags
         } else {
-          this.form.tags = null
+          this.form.tag = null
         }
-
-        this.form.state = 1
+        this.form.author = userInfo.name
+        this.form.state = 'release'
         add(this.form).then(res => {
           console.log(res)
           this.$message.success(res.msg)
@@ -166,6 +167,7 @@
       height: 40px !important;
     }
   }
+
   .cover {
     /deep/ .avatar-uploader .el-upload {
       border: 1px dashed #d9d9d9;
@@ -174,9 +176,11 @@
       position: relative;
       overflow: hidden;
     }
+
     /deep/ .avatar-uploader .el-upload:hover {
       border-color: #409EFF;
     }
+
     /deep/ .avatar-uploader-icon {
       font-size: 28px;
       color: #8c939d;
@@ -185,6 +189,7 @@
       line-height: 178px;
       text-align: center;
     }
+
     /deep/ .avatar {
       width: 178px;
       height: 178px;

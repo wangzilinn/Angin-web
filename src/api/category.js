@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function getList(data, query) {
   return request({
-    url: `/api/category/list?page=${query.page}&limit=${query.limit}`,
+    url: `/api/article/category?page=${query.page}&limit=${query.limit}`,
     method: 'post',
     data
   })
@@ -10,21 +10,21 @@ export function getList(data, query) {
 
 export function getAllCategory() {
   return request({
-    url: `/api/category/findAll`,
+    url: `/api/article/category`,
     method: 'get'
   })
 }
 
 export function findById(id) {
   return request({
-    url: `/api/category/${id}`,
+    url: `/api/article/category/${id}`,
     method: 'get'
   })
 }
 
 export function update(data) {
   return request({
-    url: `/api/category`,
+    url: `/api/article/category`,
     method: 'put',
     data
   })

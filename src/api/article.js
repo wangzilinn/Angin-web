@@ -3,7 +3,7 @@ import request from '@/utils/request'
 export function getArticleList(data, query) {
   return request({
     url: `/api/article/list?page=${query.page}&limit=${query.limit}`,
-    method: 'post',
+    method: 'get',
     data
   })
 }
