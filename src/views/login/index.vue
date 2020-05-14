@@ -53,8 +53,8 @@
         bear: normal,
 
         loginForm: {
-          username: 'wangzilin',
-          password: '123456'
+          username: '',
+          password: ''
         },
         loading: false,
         pwdType: 'password',

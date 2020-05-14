@@ -3,11 +3,11 @@
     <header id="header" class="header bg-white">
       <div class="navbar-container">
         <a href="/" class="navbar-logo">
-          <img src="/logo.png" alt="Tumo">
+          <img src="@/assets/layout/logo.jpeg" alt="Tumo">
         </a>
         <div class="navbar-menu">
           <a href="/archives">Archives</a>
-          <a href="/links">Links</a>
+          <a href="/admin/dashboard">Dashboard</a>
           <a href="/about">About</a>
         </div>
         <div class="navbar-mobile-menu" onclick="">
@@ -40,16 +40,19 @@
               <a href="/" class="info-logo">
                 <img src="/logo.png" alt="Tumo">
               </a>
-              <div class="info-text"><p id="chakhsu">I work with J<span
-                style="color: rgb(255, 120, 71);">&amp;</span><span
-                style="color: rgb(255, 94, 99);">4</span><span
-                style="color: rgb(255, 94, 99);">U</span><span
-                style="color: rgb(191, 60, 175);">+</span><span style="color: rgb(226, 183, 47);">`</span>
-              </p>
+              <div class="info-text">
+                <p id="chakhsu">I work with J<span
+                  style="color: rgb(255, 120, 71);">&amp;</span><span
+                  style="color: rgb(255, 94, 99);">4</span><span
+                  style="color: rgb(255, 94, 99);">U</span><span
+                  style="color: rgb(191, 60, 175);">+</span><span style="color: rgb(226, 183, 47);">`</span>
+                </p>
                 <p>Theme is <a href="https://github.com/chakhsu/pinghsu" target="_blank">Pinghsu</a> by <a
                   href="https://www.linpx.com/" target="_blank">Chakhsu</a></p>
                 <p>Powered by <a href="http://www.typecho.org" target="_blank" rel="nofollow">Typecho</a></p>
-                <p>© 2019 <a href="https://tycoding.cn/">TyCoding</a></p></div>
+                <p>© 2020 <a href="https://zilinn.wang/">Wang zilin</a></p>
+                <p><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=20012505">蜀ICP备20012505号-1</a></p>
+              </div>
             </div>
           </div>
           <div class="meta-item meta-posts">
@@ -70,6 +73,16 @@
   </div>
 </template>
 
+<style scoped>
+  .navbar-logo img {
+    height: 40px;
+  }
+
+  .navbar-logo {
+    top: 35%;
+  }
+
+</style>
 <script>
   import {findAllArticle} from "@/api/article";
   import {findAllComment} from "@/api/comment";

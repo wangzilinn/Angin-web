@@ -45,7 +45,7 @@
 </template>
 
 <script>
-  import {getArticleListForSite} from '@/api/article'
+  import {getArticleList} from '@/api/article'
   export default {
     name: "index",
     data() {
@@ -61,18 +61,19 @@
     },
     methods: {
       fetchData() {
-        let param = this.$route.params.page
-        if (param != undefined) {
-          this.current = param
+        let page = this.$route.params.page
+        if (page != undefined) {
+          this.current = page
         }
-        if (param == undefined) {
-          param = 1
+        if (page == undefined) {
+          page = 1
         }
-        getArticleListForSite(param).then(res => {
-          this.articleList = res.data.rows
-          this.current = res.data.current
-          this.pages = res.data.pages
-          this.total = res.data.total
+        let query = {page: page, limit: 8}
+        getArticleList({}, query).then(res => {
+          this.articleList = res.data.elements
+          this.current = res.data.currentPage
+          this.pages = res.data.totalPages
+          this.total = res.data.totalNumber
         })
       }
     }
