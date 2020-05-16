@@ -3,24 +3,32 @@
     <article class="main-content page-page">
       <div class="post-header"><h1 class="post-title" itemprop="name headline"> About </h1>
         <div class="post-data">
-          <time datetime="2016-01-28T14:07:00+08:00" itemprop="datePublished">Published on Jan 28, 2018</time>
+          <time datetime="2020-05-14 23:08" itemprop="datePublished">Published on 5 28, 2020</time>
         </div>
       </div>
-      <div id="post-content" class="post-content"><h3>Hello</h3>
-        <p>我是 TyCoding ，Java后端练习生</p>
-        <p><a href="https://github.com/TyCoding/tumo" target="_blank">Tumo</a> 博客项目起初是自己的一个练习Demo</p>
-        <p>后来，逐渐学习了新技术（SpringBoot、Vue、Node...），便想着能将新技术运用到这个项目中</p>
-        <p>但苦于技术太菜，在项目中埋下了很多坑，很对不起大家。</p>
-        <P>这次花了几天时间重构项目，采用全新的LayUI绘制，相比Vue，LayUI更适合这种前后端不分离的项目</P>
-        <h3>关于我</h3>
-        <p>在读大学僧一枚</p>
-        <p>马不停蹄赶来的路上...</p>
-        <p>如果你想跟我做朋友的话，必须欢迎，你可以通过博客页底的社交链接联系到我···</p>
+      <div id="post-content" class="post-content">
+        <h3>Hello</h3>
+        <p>我是王子林, 四川大学计算机学院研究生</p>
+        <p>喜欢古典音乐,喜欢猫咪,<strong>超级喜欢自己的女朋友</strong></p>
+        <p>本科阶段一直在嵌入式的坑里面挣扎, 忙于各种比赛, 研究生阶段转向了向上层应用, 发现又是一个大坑</p>
+        <p>目前我的研究方向是NILM, 期望能发好的论文出来</p>
+        <p>还在涉猎一个小方向, 嵌入式神经网络, 感觉可以做出很有意思的应用</p>
+        <h3>关于Blog</h3>
+        <p>这个Blog是从<a href="https://github.com/TyCoding/tumo" target="_blank">Tumo</a>获得的灵感, 从头开始学Vue, 一点一点搭建而成的</p>
+        <p>前端是Vue, 后端是Spring全家桶</p>
+        <p>由于将来很有可能从事后端工作, 本着学习的目的, 后端的框架用的会多一些,包括但不限于</p>
         <ul>
-          <li><p><a href="https://tycoding.cn/" target="_blank">Blog</a></p></li>
-          <li><p><a href="https://github.com/TyCoding" target="_blank">Github</a></p></li>
-          <li><p><a href="https://www.zhihu.com/people/tomo-83-82/activities" target="_blank">zhihu</a></p></li>
-          <li><p>QQ Group: 671017003</p></li>
+          <li>spring boot</li>
+          <li>spring security</li>
+          <li>spring cloud</li>
+          <li>mybatis plus</li>
+          <li>MySQL</li>
+          <li>MongoDB</li>
+        </ul>
+        <h3>联系</h3>
+        <p>以下是我的github, 虽然技术很菜, 但是也做了一些我觉得很有意思的东西</p>
+        <ul>
+          <li><p><a href="https://github.com/wangzilinn" target="_blank">Github</a></p></li>
         </ul>
       </div>
     </article>

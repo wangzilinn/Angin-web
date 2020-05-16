@@ -1,30 +1,25 @@
 import request from '@/utils/request'
 
-export function getArticleList(data, query) {
+//第一个参数是查询的页数据, 第二个是具体的查询参数,格式为:
+//[[条件1:value1],[条件2:value2]]
+//当不传入第二个参数时 则为undefined
+export function getArticleList(pageDate, query) {
+  let added = ``
+  if (query !== undefined) {
+    query.forEach(function (item){
+      added += `&${item.key}=${item.value}`;
+    })
+  }
   return request({
-    url: `/api/article/list?page=${query.page}&limit=${query.limit}`,
+    url: `/api/article/list?page=${pageDate.page}&limit=${pageDate.limit}${added}`,
     method: 'get',
-    data
   })
 }
 
-export function findAllArticle() {
-  return request({
-    url: `/api/article/findAll`,
-    method: 'get'
-  })
-}
 
 export function findArchives() {
   return request({
     url: `/api/article/archives`,
-    method: 'get'
-  })
-}
-
-export function getArticleListForSite(current) {
-  return request({
-    url: `/api/article/listForSite/page/${current}`,
     method: 'get'
   })
 }

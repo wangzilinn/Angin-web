@@ -3,7 +3,7 @@
     <header id="header" class="header bg-white">
       <div class="navbar-container">
         <a href="/" class="navbar-logo">
-          <img src="@/assets/layout/logo.jpeg" alt="Tumo">
+          <img src="@/assets/layout/logo.png" alt="Het meisje met de parel">
         </a>
         <div class="navbar-menu">
           <a href="/archives">Archives</a>
@@ -27,9 +27,9 @@
       <div class="footer-social">
         <div class="footer-container clearfix">
           <div class="social-list">
-            <a class="social rss" target="blank" href="https://tycoding.cn/">BLOG</a>
-            <a class="social zhihu" target="blank" href="https://www.zhihu.com/people/tomo-83-82/activities">ZHIHU</a>
-            <a class="social github" target="blank" href="https://github.com/TyCoding">GITHUB</a>
+            <a class="social rss" target="blank" href="https://zilinn.wang/">BLOG</a>
+            <a class="social douban" target="blank" href="https://www.douban.com/people/83078029/">DOUBAN</a>
+            <a class="social github" target="blank" href="https://github.com/wangzilinn">GITHUB</a>
           </div>
         </div>
       </div>
@@ -38,7 +38,7 @@
           <div class="meta-item meta-copyright">
             <div class="meta-copyright-info">
               <a href="/" class="info-logo">
-                <img src="/logo.png" alt="Tumo">
+                <img src="@/assets/layout/bottom_logo.png" alt="lover">
               </a>
               <div class="info-text">
                 <p id="chakhsu">I work with J<span
@@ -51,20 +51,21 @@
                   href="https://www.linpx.com/" target="_blank">Chakhsu</a></p>
                 <p>Powered by <a href="http://www.typecho.org" target="_blank" rel="nofollow">Typecho</a></p>
                 <p>© 2020 <a href="https://zilinn.wang/">Wang zilin</a></p>
-                <p><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=20012505">蜀ICP备20012505号-1</a></p>
+                <p><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=20012505">蜀ICP备20012505号-1</a>
+                </p>
               </div>
             </div>
           </div>
           <div class="meta-item meta-posts">
-            <h3 class="meta-title">RECENT POSTS</h3>
-            <li v-if="articleList != null" v-for="item in articleList">
+            <h3 class="meta-title">RECENT PROJECTS</h3>
+            <li v-if="recentProjectList != null" v-for="item in recentProjectList">
               <router-link :to="'/article/' + item.id">{{item.title}}</router-link>
             </li>
           </div>
           <div class="meta-item meta-comments">
-            <h3 class="meta-title">RECENT COMMENTS</h3>
-            <li v-if="commentList != null" v-for="item in commentList">
-              <router-link :to="'/article/' + item.articleId">{{item.name}} : {{item.content}}</router-link>
+            <h3 class="meta-title">RECENT ARTICLE COMMENTS</h3>
+            <li v-if="recentArticleCommentList != null" v-for="item in recentArticleCommentList">
+              <router-link :to="'/article/' + item.articleId">{{item.articleTitle}} : {{item.content}}</router-link>
             </li>
           </div>
         </div>
@@ -82,17 +83,21 @@
     top: 35%;
   }
 
+  .info-logo img{
+    height: 50px;
+  }
+
 </style>
 <script>
-  import {findAllArticle} from "@/api/article";
-  import {findAllComment} from "@/api/comment";
+  import {getArticleList} from "@/api/article";
+  import {getCommentList} from "@/api/comment";
 
   export default {
     name: "Layout",
     data() {
       return {
-        articleList: null,
-        commentList: null
+        recentProjectList: null,
+        recentArticleCommentList: null
       }
     },
     created() {
@@ -103,11 +108,11 @@
     },
     methods: {
       fetchData() {
-        findAllArticle().then(res => {
-          this.articleList = res.data
+        getArticleList({page:1, limit:8},[{key:`tag`, value:`project`}]).then(res => {
+          this.recentProjectList = res.data.elements
         })
-        findAllComment().then(res => {
-          this.commentList = res.data
+        getCommentList({page:1, limit:8}).then(res => {
+          this.recentArticleCommentList = res.data.elements
         })
       },
       init() {
@@ -137,8 +142,8 @@
           c.step ? c.step-- : (c.step = g, c.prefixP < l.length ? (c.prefixP >= 0 && (c.text += l[c.prefixP]), c.prefixP++) : "forward" === c.direction ? c.skillP < t.length ? (c.text += t[c.skillP], c.skillP++) : c.delay ? c.delay-- : (c.direction = "backward", c.delay = a) : c.skillP > 0 ? (c.text = c.text.slice(0, -1), c.skillP--) : (c.skillI = (c.skillI + 1) % o.length, c.direction = "forward")), r.textContent = c.text, r.appendChild(n(c.prefixP < l.length ? Math.min(s, s + c.prefixP) : Math.min(s, t.length - c.skillP))), setTimeout(i, d)
         }
 
-        var l = "I work with ",
-          o = ["Front-End", "Java", "Vue & CSS", "Spring", "Spring Cloud", "passion & love"].map(function (r) {
+        var l = "I focus on ",
+          o = ["Embedded-NN", "NILM", "Java", "Dart", "Vue", "Spring Boot", "Spring Cloud"].map(function (r) {
             return r + "."
           }), a = 2, g = 1, s = 5, d = 75,
           b = ["rgb(110,64,170)", "rgb(150,61,179)", "rgb(191,60,175)", "rgb(228,65,157)", "rgb(254,75,131)", "rgb(255,94,99)", "rgb(255,120,71)", "rgb(251,150,51)", "rgb(226,183,47)", "rgb(198,214,60)", "rgb(175,240,91)", "rgb(127,246,88)", "rgb(82,246,103)", "rgb(48,239,130)", "rgb(29,223,163)", "rgb(26,199,194)", "rgb(35,171,216)", "rgb(54,140,225)", "rgb(76,110,219)", "rgb(96,84,200)"],

@@ -62,14 +62,13 @@
     methods: {
       fetchData() {
         let page = this.$route.params.page
-        if (page != undefined) {
+        if (page !== undefined) {
           this.current = page
         }
-        if (page == undefined) {
+        if (page === undefined) {
           page = 1
         }
-        let query = {page: page, limit: 8}
-        getArticleList({}, query).then(res => {
+        getArticleList( {page: page, limit: 8}).then(res => {
           this.articleList = res.data.elements
           this.current = res.data.currentPage
           this.pages = res.data.totalPages
