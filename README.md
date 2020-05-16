@@ -1,21 +1,18 @@
-# Vue-App
+# Angle blog
 
-## Project setup
-```
-npm install
-```
+![](.\src\assets\layout\logo.png)
 
-### Compiles and hot-reloads for development
-```
-npm run dev
-```
 
-### Compiles and minifies for production
-```
-npm run build:prod
-```
 
-# Notes
+## Angin blog是什么?
+
+这是我准备长期维护的个人全站项目的Blog部分
+
+它是由[tumo](https://github.com/TyCoding/tumo-vue)这个项目获得的灵感
+
+其主题是[Pinghsu](https://github.com/chakhsu/pinghsu),准备在其基础上加一些自己的东西
+
+## Notes
 
 > 父组件如何给子组件传值？
 
