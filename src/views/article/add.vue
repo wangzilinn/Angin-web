@@ -7,7 +7,7 @@
         </el-form-item>
         <el-form-item label="文章分类" style="display: inline-block">
           <!--这里直接把category存进去了-->
-          <el-select v-model="form.category" placeholder="请选择文章分类" style="width:400px">
+          <el-select v-model="form.categoryName" placeholder="请选择文章分类" style="width:400px">
             <!--value值是选中的那个-->
             <el-option v-for="item in categoryList" :label="item.name" :key="item.id" :value="item.name"></el-option>
           </el-select>
@@ -123,9 +123,9 @@
           this.articleTags.forEach(t => {
             tags.push({id: t})
           })
-          this.form.tag = tags
+          this.form.tagNames = tags
         } else {
-          this.form.tag = null
+          this.form.tagNames = null
         }
 
         this.form.state = 'release'
@@ -140,9 +140,9 @@
       releaseSubmit() {
         //装入标签, form是最终提交的表单
         if (this.articleTags != null || this.articleTags.length > 0) {
-          this.form.tag = this.articleTags
+          this.form.tagNames = this.articleTags
         } else {
-          this.form.tag = null
+          this.form.tagNames = null
         }
         this.form.author = userInfo.name
         this.form.state = 'release'

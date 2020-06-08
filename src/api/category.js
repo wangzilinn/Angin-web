@@ -10,7 +10,7 @@ export function getList(data, query) {
 
 export function getAllCategory() {
   return request({
-    url: `/api/article/category`,
+    url: `/api/article/category/list`,
     method: 'get'
   })
 }

@@ -10,7 +10,7 @@ export function getList(data, query) {
 
 export function getAllTag() {
   return request({
-    url: `/api/article/tag`,
+    url: `/api/article/tag/list`,
     method: 'get'
   })
 }
