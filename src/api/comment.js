@@ -1,5 +1,6 @@
 import request from '@/utils/request'
 
+//这个函数是首页查询所有评论时用的
 //第一个参数是查询的页数据, 第二个是具体的查询参数,格式为:
 //{[条件1:value1],[条件2:value2]]
 //当不传入第二个参数时 则为undefined
@@ -40,7 +41,7 @@ export function add(data) {
 
 export function getListForArticle(articleId, page) {
   return request({
-    url: `/api/comment/listForArticle?articleId=${articleId}&page=${page}`,
+    url: `/api/comment/list?id=${articleId}&page=${page}`,
     method: 'get'
   })
 }

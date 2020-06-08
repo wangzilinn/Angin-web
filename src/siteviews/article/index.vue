@@ -5,12 +5,12 @@
         <h1 class="post-title" itemprop="name headline"> {{article.title}} </h1>
         <div class="post-data">
           <time datetime="2018-04-01T23:34:00+08:00" itemprop="datePublished">{{article.publishTime}}</time>
-                    in <a href="#">{{article.category}}</a>
+                    in <a href="#">{{article.categoryName}}</a>
         </div>
       </div>
       <div class="post-content" itemprop="articleBody">
-        <p class="post-tags" v-if="article.tags != null">
-          <a v-for="tag in article.tags" href="#">{{tag.name}}</a>
+        <p class="post-tags" v-if="article.tagNames != null">
+          <a v-for="tagName in article.tagNames" href="#">{{tagName}}</a>
         </p>
 
         <div id="post-content" v-html="article.content" ref="content"></div>
@@ -45,8 +45,9 @@
           <textarea v-model="form.content" class="form-control" placeholder="Your comment here. Be cool. " required=""></textarea>
           <button type="button" class="submit" @click="submit">SUBMIT</button>
         </form>
-        <ol v-if="data.rows != null && data.rows.length > 0" class="comment-list">
-          <li v-for="parent in data.rows" :id="'li-comment-' + parent.id" class="comment-body comment-parent comment-even">
+        <!--以下显示文章评论-->
+        <ol v-if="comments.rows != null && comments.rows.length > 0" class="comment-list">
+          <li v-for="parent in comments.rows" :id="'li-comment-' + parent.id" class="comment-body comment-parent comment-even">
             <div :id="'comment-' + parent.id">
               <div class="comment-view" onclick="">
                 <div class="comment-header">
@@ -99,16 +100,16 @@
             </div>
           </li>
         </ol>
-        <div v-if="data.pages > 0" class="lists-navigator">
+        <div v-if="comments.pages > 0" class="lists-navigator">
           <ol class="page-navigator">
-            <li v-if="data.current > 1" class="prev">
-              <a @click="toPage(data.current - 1)" href="#comments">←</a>
+            <li v-if="comments.current > 1" class="prev">
+              <a @click="toPage(comments.current - 1)" href="#comments">←</a>
             </li>
-            <li v-for="i in data.pages" :class="data.current == i ? 'current' : ''">
+            <li v-for="i in comments.pages" :class="comments.current == i ? 'current' : ''">
               <a @click="toPage(i)" href="#comments">{{i}}</a>
             </li>
-            <li v-if="data.current < data.pages" class="next">
-              <a @click="toPage(data.current + 1)" href="#comments">→</a>
+            <li v-if="comments.current < comments.pages" class="next">
+              <a @click="toPage(comments.current + 1)" href="#comments">→</a>
             </li>
           </ol>
         </div>
@@ -127,9 +128,9 @@
     data() {
       return {
         article: {},
-        data: {},
+        comments: {},
         form: {},
-        current: 1
+        currentCommentPage: 1
       }
     },
     created() {
@@ -141,41 +142,42 @@
       }, 400)
     },
     methods: {
+      //页面加载时调用
       fetchData() {
         findById(this.$route.params.id).then(res => {
           this.article = res.data
         })
-        this.fetchCommentData(this.current)
+        this.fetchCommentData(this.currentCommentPage)
       },
 
-      fetchCommentData(current) {
-        getListForArticle(this.$route.params.id, current).then(res => {
-          this.data = res.data
+      fetchCommentData(currentCommentPage) {
+        getListForArticle(this.$route.params.id, currentCommentPage, 8).then(res => {
+          this.comments = res.data
         })
       },
 
       submit() {
-        if (this.form.name == null || this.form.name == '') {
+        if (this.form.name == null || this.form.name === '') {
           this.$message.warning('请填写昵称')
           return false;
         }
-        if (this.form.email == null || this.form.email == '') {
+        if (this.form.email == null || this.form.email === '') {
           this.$message.warning('请填写邮箱')
           return false
         }
-        if (this.form.url == null || this.form.url == '') {
+        if (this.form.url == null || this.form.url === '') {
           this.$message.warning('请填写个性域名')
           return false
         }
-        if (this.form.content == null || this.form.content == '') {
+        if (this.form.content == null || this.form.content === '') {
           this.$message.warning('请填写留言内容')
           return false;
         }
 
         add(this.form).then(res => {
-          if (res.code == 200) {
+          if (res.code === 200) {
             this.$message.success('评论成功')
-            this.fetchCommentData(this.current)
+            this.fetchCommentData(this.currentCommentPage)
             this.clearForm()
           }
         })
@@ -187,7 +189,7 @@
       },
 
       toPage(page) {
-        this.current = page
+        this.currentCommentPage = page
         this.fetchCommentData(page)
       },
 

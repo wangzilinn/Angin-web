@@ -24,9 +24,10 @@ export function findArchives() {
   })
 }
 
+//首页点击文章标题后跳转使用这个函数
 export function findById(id) {
   return request({
-    url: `/api/article/${id}`,
+    url: `/api/article?id=${id}`,
     method: 'get'
   })
 }

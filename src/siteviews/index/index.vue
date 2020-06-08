@@ -2,7 +2,7 @@
   <div class="index-page main-content">
     <div class="post-lists">
       <div class="post-lists-body">
-        <div class="post-list-item" v-if="articleList == null || articleList.length == 0">
+        <div class="post-list-item" v-if="articleList == null || articleList.length === 0">
           <p>还有没有发表文章呢！</p>
         </div>
         <div class="post-list-item" v-else v-for="item in articleList">
@@ -33,7 +33,7 @@
         <li v-if="current > 1" class="prev">
           <a :href="'/page/' + (current - 1)">←</a>
         </li>
-        <li v-for="i in pages" :class="current == i ? 'current' : ''">
+        <li v-for="i in pages" :class="current === i ? 'current' : ''">
           <a :href="'/page/' + i">{{i}}</a>
         </li>
         <li v-if="current < pages" class="next">

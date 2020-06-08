@@ -56,12 +56,14 @@
               </div>
             </div>
           </div>
+          <!--这里显示最近的项目:tag是project的-->
           <div class="meta-item meta-posts">
             <h3 class="meta-title">RECENT PROJECTS</h3>
             <li v-if="recentProjectList != null" v-for="item in recentProjectList">
               <router-link :to="'/article/' + item.id">{{item.title}}</router-link>
             </li>
           </div>
+          <!--这里显示最近的评论-->
           <div class="meta-item meta-comments">
             <h3 class="meta-title">RECENT ARTICLE COMMENTS</h3>
             <li v-if="recentArticleCommentList != null" v-for="item in recentArticleCommentList">
