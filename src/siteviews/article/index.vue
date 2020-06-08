@@ -4,8 +4,8 @@
       <div class="post-header">
         <h1 class="post-title" itemprop="name headline"> {{article.title}} </h1>
         <div class="post-data">
-          <time datetime="2018-04-01T23:34:00+08:00" itemprop="datePublished">{{article.publishTime}}</time>
-                    in <a href="#">{{article.categoryName}}</a>
+          <time itemprop="datePublished">This article was published in {{article.editTime}}</time>
+          under the  <a href="#">{{article.categoryName}} category</a>
         </div>
       </div>
       <div class="post-content" itemprop="articleBody">
