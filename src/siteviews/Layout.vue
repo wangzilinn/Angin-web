@@ -109,6 +109,7 @@
       this.init()
     },
     methods: {
+      //创建页面时调用
       fetchData() {
         getArticleList({page:1, limit:8},[{key:`tag`, value:`project`}]).then(res => {
           this.recentProjectList = res.data.elements

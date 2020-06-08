@@ -29,7 +29,7 @@
                 <div slot="header" class="box-text">
                   <span>文章总量</span>
                 </div>
-                <div class="box-num">12</div>
+                <div class="box-num">{{totalArticlesNumber}}</div>
               </el-card>
               <el-card class="box-card">
                 <div slot="header" class="box-text">
@@ -65,9 +65,21 @@
                     <span>{{ scope.row.author }}</span>
                   </template>
                 </el-table-column>
+                <el-table-column label="分类" align="center">
+                  <template slot-scope="scope">
+                    <span>{{scope.row.categoryName}}</span>
+                  </template>
+                </el-table-column>
+                <el-table-column label="标签" align="center">
+                  <template slot-scope="scope">
+                    <!--<span>{{scope.row.tagNames}}</span>-->
+                    <a  v-for="tagName in scope.row.tagNames" href="#">{{tagName}}, </a>
+                  </template>
+                </el-table-column>
                 <el-table-column class-name="status-col" label="状态" width="110" align="center">
                   <template slot-scope="scope">
-                    <el-tag :type="scope.row.state == '1' ? 'success' : 'warning'">{{ scope.row.state == '1' ? '已发布' : '未发布' }}</el-tag>
+                    <el-tag :type="scope.row.state === 'release' ? 'success' : 'warning'">{{ scope.row.state === 'release' ?
+                      '已发布' : '未发布' }}</el-tag>
                   </template>
                 </el-table-column>
               </el-table>
@@ -105,101 +117,6 @@
             </el-tab-pane>
           </el-tabs>
         </el-card>
-      </el-col>
-      <el-col :xs="24" :sm="24" :lg="12">
-        <el-row>
-          <el-col>
-            <el-card class="project-card">
-              <div slot="header">
-                <span>进行中的项目</span>
-                <el-button style="float: right; padding: 3px 0" type="text">所有项目</el-button>
-              </div>
-              <div>
-                <el-row>
-                  <el-col class="project-item" :xs="12" :sm="12" :lg="12">
-                    <div class="project-name">
-                      <a target="_blank" href="https://github.com/TyCoding/tumo">Tumo</a>
-                    </div>
-                    <div class="project-desc">
-                      Spring Boot 2.1.3 &amp; Shiro 博客系统。
-                    </div>
-                  </el-col>
-                  <el-col class="project-item" :xs="12" :sm="12" :lg="12">
-                    <div class="project-name">
-                      <a target="_blank" href="https://github.com/TyCoding/permission">Permission</a>
-                    </div>
-                    <div class="project-desc">
-                      Spring Boot &amp; Shiro 权限管理系统。
-                    </div>
-                  </el-col>
-                </el-row>
-                <el-row>
-                  <el-col class="project-item" :xs="12" :sm="12" :lg="12">
-                    <div class="project-name">
-                      <a target="_blank" href="https://github.com/TyCoding/cloud-template">Cloud Template</a>
-                    </div>
-                    <div class="project-desc">
-                      SpringCloud Greenwich.SR1 &amp; Spring Boot &amp; Vue 微服务架构模板。
-                    </div>
-                  </el-col>
-                  <el-col class="project-item" :xs="12" :sm="12" :lg="12">
-                    <div class="project-name">
-                      <a target="_blank" href="https://github.com/TyCoding/scst">Spring Cloud Security Template</a>
-                    </div>
-                    <div class="project-desc">
-                      SpringCloud Greenwich.SR1 &amp; Spring Security &amp; Vue 微服务权限管理系统。
-                    </div>
-                  </el-col>
-                </el-row>
-              </div>
-            </el-card>
-          </el-col>
-          <el-col>
-            <el-card class="info-card">
-              <div slot="header">
-                <span>版本信息</span>
-              </div>
-              <div>
-                <el-card class="info-item-card" shadow="never">
-                  <div class="info-header">
-                    当前版本
-                  </div>
-                  <div class="info-text">
-                    V2.0
-                  </div>
-                </el-card>
-                <el-card class="info-item-card" shadow="never">
-                  <div class="info-header">
-                    基于框架
-                  </div>
-                  <div class="info-text">
-                    SpringBoot2.1.3 / Shiro / LayUI
-                  </div>
-                </el-card>
-                <el-card class="info-item-card" shadow="never">
-                  <div class="info-header">
-                    博客源码
-                  </div>
-                  <div class="info-text">
-                    <a href="https://github.com/TyCoding/tumo" target="_blank">https://github.com/TyCoding/tumo</a>
-                  </div>
-                </el-card>
-                <el-card class="info-item-card" shadow="never">
-                  <div class="info-header">
-                    联系我
-                  </div>
-                  <div class="info-text">
-                    Blog：<a href="http://tycoding.cn" target="_blank">http://tycoding.cn</a>
-                    <br/>
-                    Github：<a href="https://github.com/TyCoding/" target="_blank">https://github.com/TyCoding/</a>
-                    <br/>
-                    QQ Group: 671017003
-                  </div>
-                </el-card>
-              </div>
-            </el-card>
-          </el-col>
-        </el-row>
       </el-col>
     </el-row>
   </div>
@@ -245,8 +162,11 @@
     methods: {
       fetchData() {
         this.listLoading = true
-        getArticleList({}, this.listQuery).then(response => {
-          this.articleList = response.data.rows
+        getArticleList({page: 1, limit: 8}).then(res => {
+          this.articleList = res.data.elements
+          this.currentArticlePage = res.data.currentPage
+          this.articlePages = res.data.totalPages
+          this.totalArticlesNumber = res.data.totalNumber
           this.listLoading = false
         })
         getCommentList({}, this.listQuery).then(response => {
