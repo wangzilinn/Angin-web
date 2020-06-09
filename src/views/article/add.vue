@@ -26,11 +26,11 @@
           <el-upload
             :headers="tokenHeader"
             class="avatar-uploader"
-            :action="qiNiuUploadApi"
+            :action="imgApi"
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload">
-            <img v-if="form.cover" :src="form.cover" class="avatar">
+            <img v-if="form.cover" :src="coverUrl" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
@@ -57,7 +57,7 @@
     components: {MarkdownEditor},
     computed: {
       ...mapGetters([
-        'qiNiuUploadApi',
+        'imgApi',
         'token'
       ])
     },
@@ -68,6 +68,7 @@
         tokenHeader: {},
         categoryList: null,
         tagList: null,
+        coverUrl: ''
       }
     },
     created() {
@@ -96,12 +97,15 @@
       },
 
       handleAvatarSuccess(res, file) {
-        if (res.code == 500) {
+        if (res.code === 500) {
           this.$message.error(res.msg)
         }
-        if (res.code == 200) {
+        if (res.code === 200) {
           this.$message.success(res.msg)
-          this.form.cover = res.data.url;
+          //返回的结果中, data的内容是图片的id, 与imgApi组合形成图片网址
+          this.form.cover = res.data;
+          this.coverUrl = this.imgApi + "/"+ res.data;
+          console.log(this.coverUrl)
         }
       },
       beforeAvatarUpload(file) {

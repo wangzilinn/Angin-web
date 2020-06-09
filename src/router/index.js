@@ -162,7 +162,7 @@ export const constantRoutes = [
   {
     path: '/swagger',
     component: Layout,
-    redirect: '/api',
+    redirect: '/api/human',
     children: [{
       path: 'api',
       name: 'Api文档',

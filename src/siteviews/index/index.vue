@@ -7,7 +7,7 @@
         </div>
         <div class="post-list-item" v-else v-for="item in articleList">
           <div class="post-list-item-container">
-            <div class="item-thumb bg-deepgrey" :style="'background-image:url(' + item.cover + ');'"></div>
+            <div class="item-thumb bg-deepgrey" :style="'background-image:url(' + getCoverUrl(item.cover) + ');'"></div>
             <router-link :to="'/article/' + item.id">
               <div class="item-desc">
                 <p :text="item.content"></p>
@@ -46,8 +46,14 @@
 
 <script>
   import {getArticleList} from '@/api/article'
+  import {mapGetters} from "vuex";
   export default {
     name: "index",
+    computed: {
+      ...mapGetters([
+        'imgApi',
+      ])
+    },
     data() {
       return {
         articleList: null,
@@ -74,6 +80,9 @@
           this.pages = res.data.totalPages
           this.total = res.data.totalNumber
         })
+      },
+      getCoverUrl(imgId){
+        return this.imgApi + "/" + imgId
       }
     }
   }

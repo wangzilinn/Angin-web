@@ -1,8 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import getters from './getters'
 import app from './modules/app'
-import api from './modules/api'
+import externalApi from './modules/externalApi'
 import settings from './modules/settings'
 import user from './modules/user'
 
@@ -11,11 +10,19 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   modules: {
     app,
-    api,
+    externalApi,
     settings,
     user
   },
-  getters
+  getters : {
+    sidebar: state => state.app.sidebar,
+    device: state => state.app.device,
+    token: state => state.user.token,
+    avatar: state => state.user.avatar,
+    name: state => state.user.name,
+    imgApi: state => state.externalApi.imgApi,
+    swaggerApi: state => state.api.swaggerApi
+  }
 })
 
 export default store
