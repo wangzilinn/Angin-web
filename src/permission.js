@@ -7,7 +7,7 @@ import { getToken } from '@/utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
-
+//以下这些界面不需要登录
 const whiteList = ['/login', '/', '/page/*', '/about', '/archives', '/links'] // no redirect whitelist
 
 router.beforeEach(async(to, from, next) => {

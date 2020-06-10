@@ -28,9 +28,13 @@
                     <svg-icon icon-class="eye"/>
                 </span>
       </el-form-item>
-      <el-form-item>
+      <el-form-item align="center">
         <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleLogin">
           Sign in
+        </el-button>
+        <el-divider></el-divider>
+        <el-button :loading="loading" style="width:80%;" @click.native.prevent="handleSignUp">
+          Sign up
         </el-button>
       </el-form-item>
     </el-form>
@@ -41,6 +45,8 @@
   import normal from '@/assets/login/stand.png'
   import blindfold from '@/assets/login/close_eyes.png'
   import greeting from '@/assets/login/hello.png'
+  import {signUp} from "@/api/login";
+
   export default {
     name: 'Login',
     data() {
@@ -91,9 +97,32 @@
         this.$refs.loginForm.validate(valid => {
           if (valid) {
             this.loading = true
+            //user/login是一个函数
             this.$store.dispatch('user/login', this.loginForm).then(() => {
-              this.loadijsng = false
-              this.$router.push({path: '/admin/dashboard'})
+              this.loading = false
+              //rediect是来login页面之前想去的页面
+              if (this.redirect === undefined){
+                this.$router.push({path: "/"})
+              }else {
+                this.$router.push({path: this.redirect})
+              }
+            }).catch(() => {
+              this.loading = false
+            })
+          } else {
+            console.log('error submit!!')
+            return false
+          }
+        })
+      },
+      handleSignUp(){
+        this.$refs.loginForm.validate(valid => {
+          if (valid) {
+            this.loading = true
+            //user/login是一个函数
+            signUp(this.loginForm).then(() => {
+              this.$message.success("注册成功, 请按照注册的用户名和密码登录")
+              this.loading = false
             }).catch(() => {
               this.loading = false
             })

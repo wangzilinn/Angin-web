@@ -11,6 +11,17 @@ export function login(form) {
   })
 }
 
+export function signUp(form) {
+  return request({
+    url: '/api/user/signUp',
+    method: 'post',
+    params: {
+      username: form.username,
+      password: form.password
+    }
+  })
+}
+
 export function getInfo() {
   return request({
     url: '/api/user/info',

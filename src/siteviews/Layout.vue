@@ -6,16 +6,16 @@
           <img src="@/assets/layout/logo.png" alt="Het meisje met de parel">
         </a>
         <div class="navbar-menu">
-          <a href="/archives">Archives</a>
+          <a href="/login">Login</a>
           <a href="/admin/dashboard">Dashboard</a>
           <a href="/about">About</a>
         </div>
         <div class="navbar-mobile-menu" onclick="">
           <span class="icon-menu cross"><span class="middle"></span></span>
           <ul>
-            <li><a href="/archives">Archives</a></li>
-            <li><a href="/links">Links</a></li>
-            <li><a href="/about">About</a></li>
+            <a href="/login">Login</a>
+            <a href="/admin/dashboard">Dashboard</a>
+            <a href="/about">About</a>
           </ul>
         </div>
       </div>
