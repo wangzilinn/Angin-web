@@ -108,6 +108,8 @@
               }
             }).catch(() => {
               this.loading = false
+              console.log('登陆失败')
+              this.$message.error('登陆失败')
             })
           } else {
             console.log('error submit!!')

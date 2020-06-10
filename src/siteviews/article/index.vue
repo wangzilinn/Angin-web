@@ -90,7 +90,6 @@
                     required=""></textarea>
           <button type="button" class="submit" @click="submit">SUBMIT</button>
         </form>
-        <!--以下显示文章评论-->
       </div>
     </div>
 

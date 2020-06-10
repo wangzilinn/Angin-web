@@ -30,9 +30,9 @@ const actions = {
         const { data } = response
         commit('SET_TOKEN', data.token)
         setToken(data.token)
-        resolve()
+        resolve(data.msg)
       }).catch(error => {
-        reject(error)
+        reject(error.response.msg)
       })
     })
   },

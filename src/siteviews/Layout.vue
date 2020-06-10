@@ -6,15 +6,17 @@
           <img src="@/assets/layout/logo.png" alt="Het meisje met de parel">
         </a>
         <div class="navbar-menu">
-          <a href="/login">Login</a>
-          <a href="/admin/dashboard">Dashboard</a>
+          <a href="/login" v-if="name">{{name}}</a>
+          <a href="/logout" v-if="name">Logout</a>
+          <a href="/login" v-else>Login</a>
           <a href="/about">About</a>
         </div>
         <div class="navbar-mobile-menu" onclick="">
           <span class="icon-menu cross"><span class="middle"></span></span>
           <ul>
-            <a href="/login">Login</a>
-            <a href="/admin/dashboard">Dashboard</a>
+            <a href="/login" v-if="name">{{name}}</a>
+            <a href="/logout" v-if="name">Logout</a>
+            <a href="/login" v-else>Login</a>
             <a href="/about">About</a>
           </ul>
         </div>
@@ -93,13 +95,20 @@
 <script>
   import {getArticleList} from "@/api/article";
   import {getCommentList} from "@/api/comment";
+  import {mapGetters} from "vuex";
 
   export default {
     name: "Layout",
+    computed: {
+      ...mapGetters([
+        'name'
+      ])
+    },
     data() {
       return {
         recentProjectList: null,
         recentArticleCommentList: null
+
       }
     },
     created() {
