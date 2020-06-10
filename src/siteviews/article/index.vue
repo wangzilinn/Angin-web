@@ -5,7 +5,7 @@
         <h1 class="post-title" itemprop="name headline"> {{article.title}} </h1>
         <div class="post-data">
           <time itemprop="datePublished">This article was published in {{article.editTime}}</time>
-          under the  <a href="#">{{article.categoryName}} category</a>
+          under the <a href="#">{{article.categoryName}} category</a>
         </div>
       </div>
       <div class="post-content" itemprop="articleBody">
@@ -34,85 +34,63 @@
 
     <div id="respond-post-334" class="comment-container">
       <div id="comments" class="clearfix">
+        <span class="title">Comments</span>
+        <div class="radio">
+          排序：
+          <el-radio-group v-model="reverse">
+            <el-radio :label="true">倒序</el-radio>
+            <el-radio :label="false">正序</el-radio>
+          </el-radio-group>
+        </div>
+        <el-timeline :reverse="reverse">
+          <el-timeline-item
+            v-for="(activity, index) in activities"
+            :key="index"
+            :timestamp="activity.timestamp"
+            placement="top">
+            <el-card>
+              <div class="comment-header">
+                <img class="avatar" src="/user.png" width="80" height="80">
+                <span class="comment-author">
+                      <a :href="123" target="_blank" rel="external nofollow">用户名</a>
+                      <span>个性签名</span>
+                  </span>
+              </div>
+              <div class="comment-content">
+                <span class="comment-author-at"></span>
+                <p>{{activity.content}}</p>
+                <p></p>
+              </div>
+              <div class="comment-meta">
+                <span class="comment-reply">
+                     <a href="#comments" rel="nofollow" @click="">Reply</a>
+                </span>
+              </div>
+            </el-card>
+          </el-timeline-item>
+        </el-timeline>
         <span class="response">Responses</span>
+        <div class="radio">
+          <el-radio-group v-model="reverse">
+            <el-radio :label="true">当前用户</el-radio>
+            <el-radio :label="false">匿名</el-radio>
+          </el-radio-group>
+        </div>
         <form id="comment-form" class="comment-form" role="form">
           <input v-model="form.articleTitle = article.title" style="display: none;">
           <input v-model="form.articleId = article.id" style="display: none;">
           <input v-model="form.sort = 0" style="display: none;">
-          <input type="text" v-model="form.name" maxlength="12" class="form-control input-control clearfix" placeholder="Name (*)" value="" required="">
-          <input type="email" v-model="form.email" class="form-control input-control clearfix" placeholder="Email (*)" value="" required="">
-          <input type="url" v-model="form.url" class="form-control input-control clearfix" placeholder="Site (http://)" value="">
-          <textarea v-model="form.content" class="form-control" placeholder="Your comment here. Be cool. " required=""></textarea>
+          <input type="text" v-model="form.name" maxlength="12" class="form-control input-control clearfix"
+                 placeholder="Name (*)" value="" required="">
+          <input type="email" v-model="form.email" class="form-control input-control clearfix" placeholder="Email (*)"
+                 value="" required="">
+          <input type="url" v-model="form.url" class="form-control input-control clearfix" placeholder="Site (http://)"
+                 value="">
+          <textarea v-model="form.content" class="form-control" placeholder="Your comment here. Be cool. "
+                    required=""></textarea>
           <button type="button" class="submit" @click="submit">SUBMIT</button>
         </form>
         <!--以下显示文章评论-->
-        <ol v-if="comments.rows != null && comments.rows.length > 0" class="comment-list">
-          <li v-for="parent in comments.rows" :id="'li-comment-' + parent.id" class="comment-body comment-parent comment-even">
-            <div :id="'comment-' + parent.id">
-              <div class="comment-view" onclick="">
-                <div class="comment-header">
-                  <img class="avatar" src="/user.png" width="80" height="80">
-                  <span class="comment-author">
-                      <a :href="parent.url" target="_blank" rel="external nofollow">{{parent.name}}</a>
-                      <span>{{parent.device}}</span>
-                  </span>
-                </div>
-                <div class="comment-content">
-                  <span class="comment-author-at"></span>
-                  <p>{{parent.content}}</p>
-                  <p></p>
-                </div>
-                <div class="comment-meta">
-                  <time class="comment-time">{{parent.time}}</time>
-                  <span class="comment-reply">
-                     <a href="#comments" rel="nofollow" @click="reply(parent.id, parent.name)">Reply</a>
-                </span>
-                </div>
-              </div>
-            </div>
-            <div v-if="parent.children != null && parent.children.length > 0" class="comment-children">
-              <ol class="comment-list">
-                <li v-for="child in parent.children" :id="'li-comment-' + child.id" class="comment-body comment-child comment-level-odd comment-odd">
-                  <div :id="'comment-' + child.id">
-                    <div class="comment-view" onclick="">
-                      <div class="comment-header">
-                        <img class="avatar" src="/user.png" width="80" height="80">
-                        <span class="comment-author">
-                            <a :href="child.url" target="_blank" rel="external nofollow">{{child.name}}</a>
-                            <span>{{child.device}}</span>
-                        </span>
-                      </div>
-                      <div class="comment-content">
-                        <span class="comment-author-at"><a :href="'#comment-' + child.pId">@{{child.target}}</a></span>
-                        <p>{{child.content}}</p>
-                        <p></p>
-                      </div>
-                      <div class="comment-meta">
-                        <time class="comment-time">{{child.time}}</time>
-                        <span class="comment-reply">
-                            <a href="#comments" rel="nofollow" @click="reply(parent.id, child.name)">Reply</a>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              </ol>
-            </div>
-          </li>
-        </ol>
-        <div v-if="comments.pages > 0" class="lists-navigator">
-          <ol class="page-navigator">
-            <li v-if="comments.current > 1" class="prev">
-              <a @click="toPage(comments.current - 1)" href="#comments">←</a>
-            </li>
-            <li v-for="i in comments.pages" :class="comments.current == i ? 'current' : ''">
-              <a @click="toPage(i)" href="#comments">{{i}}</a>
-            </li>
-            <li v-if="comments.current < comments.pages" class="next">
-              <a @click="toPage(comments.current + 1)" href="#comments">→</a>
-            </li>
-          </ol>
-        </div>
       </div>
     </div>
 
@@ -130,7 +108,18 @@
         article: {},
         comments: {},
         form: {},
-        currentCommentPage: 1
+        currentCommentPage: 1,
+        reverse: true,
+        activities: [{
+          content: '活动按期开始',
+          timestamp: '2018-04-15'
+        }, {
+          content: '通过审核',
+          timestamp: '2018-04-13'
+        }, {
+          content: '创建成功',
+          timestamp: '2018-04-11'
+        }]
       }
     },
     created() {
@@ -308,5 +297,22 @@
 
   .content-index {
     padding: 0
+  }
+
+  #comments .title {
+    font-size: 20px;
+    font-weight: 400;
+    display: block;
+    padding: 30px 0 30px 20px;
+    color: #5f5f5f
+  }
+
+  #comments .radio {
+    padding: 0 0 30px 20px;
+  }
+
+  .comment-meta .comment-reply {
+    display: inline;
+    float: right
   }
 </style>
