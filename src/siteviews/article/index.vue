@@ -71,21 +71,20 @@
         </el-timeline>
         <span class="response">Responses</span>
         <div class="radio">
-          <el-radio-group v-model="reverse">
-            <el-radio :label="true">当前用户</el-radio>
-            <el-radio :label="false">匿名</el-radio>
+          <el-radio-group v-model="anonymous" @change="changeCommentRole">
+            <el-radio :label="false">当前用户
+              <span v-if="this.name">: {{this.name}}</span>
+            </el-radio>
+            <el-radio :label="true">匿名</el-radio>
           </el-radio-group>
         </div>
         <form id="comment-form" class="comment-form" role="form">
           <input v-model="form.articleTitle = article.title" style="display: none;">
           <input v-model="form.articleId = article.id" style="display: none;">
-          <input v-model="form.sort = 0" style="display: none;">
-          <input type="text" v-model="form.name" maxlength="12" class="form-control input-control clearfix"
-                 placeholder="Name (*)" value="" required="">
-          <input type="email" v-model="form.email" class="form-control input-control clearfix" placeholder="Email (*)"
-                 value="" required="">
-          <input type="url" v-model="form.url" class="form-control input-control clearfix" placeholder="Site (http://)"
-                 value="">
+          <p v-if="anonymous">
+            <input type="email" v-model="form.avatar" class="form-control input-control clearfix" placeholder="avatar"
+                   value="" required="">
+          </p>
           <textarea v-model="form.content" class="form-control" placeholder="Your comment here. Be cool. "
                     required=""></textarea>
           <button type="button" class="submit" @click="submit">SUBMIT</button>
@@ -99,16 +98,27 @@
 <script>
   import {getListForArticle, add} from "@/api/comment";
   import {findById} from '@/api/article'
+  import {mapGetters} from "vuex";
 
   export default {
     name: "index",
+    computed: {
+      ...mapGetters([
+        'name' //username
+      ])
+    },
     data() {
+      //如果用户登陆了, 就默认不用匿名模式
+      let anonymous = false
+      if (this.name === ``)
+        anonymous = true
       return {
         article: {},
         comments: {},
         form: {},
         currentCommentPage: 1,
         reverse: true,
+        anonymous: anonymous,
         activities: [{
           content: '活动按期开始',
           timestamp: '2018-04-15'
@@ -143,19 +153,37 @@
           this.comments = res.data
         })
       },
-
+      changeCommentRole(isAnonymous) {
+        console.log(`使用匿名: ${isAnonymous}`);
+        if (!isAnonymous) {
+          //判断是否登录
+          if (this.name === '') {
+            //未登录, 跳转到登陆界面
+            this.$confirm('是否进行登录>', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              this.$router.push({path: `/login?redirect=/article/${this.$route.params.id}`})
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消登录, 只能使用匿名评论'
+              });
+              this.anonymous = true
+            });
+          } else {
+            this.form.name = this.name
+          }
+        }
+      },
       submit() {
-        if (this.form.name == null || this.form.name === '') {
-          this.$message.warning('请填写昵称')
-          return false;
-        }
-        if (this.form.email == null || this.form.email === '') {
-          this.$message.warning('请填写邮箱')
-          return false
-        }
-        if (this.form.url == null || this.form.url === '') {
-          this.$message.warning('请填写个性域名')
-          return false
+        //如果是匿名,则需要填写昵称(如果不是匿名, 则会有用户名form.name
+        if (this.anonymous){
+          if (this.form.avatar == null || this.form.avatar === '') {
+            this.$message.warning('请填写昵称')
+            return false
+          }
         }
         if (this.form.content == null || this.form.content === '') {
           this.$message.warning('请填写留言内容')
@@ -183,15 +211,11 @@
 
       clearForm() {
         this.form.name = ''
-        this.form.email = ''
-        this.form.url = ''
         this.form.content = ''
-        this.form.pid = ''
-        this.form.cname = ''
+        this.form.avatar = ''
       },
 
       init() {
-
         //生成右侧目录导航
         var postDirectoryBuild = function () {
           var postChildren = function children(childNodes, reg) {
