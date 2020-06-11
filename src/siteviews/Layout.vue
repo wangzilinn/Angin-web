@@ -122,6 +122,7 @@
     methods: {
       //创建页面时调用
       fetchData() {
+        //查找最近项目(打了project标签的)
         getArticleList({page:1, limit:5},[{key:`tag`, value:`project`}]).then(res => {
           this.recentProjectList = res.data.elements
         })
