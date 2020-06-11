@@ -39,9 +39,9 @@ export function add(data) {
   })
 }
 
-export function getListForArticle(articleId, page) {
+export function getListForArticle(articleId, page, limit) {
   return request({
-    url: `/api/comment/list?id=${articleId}&page=${page}`,
+    url: `/api/comment/list?id=${articleId}&page=${page}&limit=${limit}`,
     method: 'get'
   })
 }

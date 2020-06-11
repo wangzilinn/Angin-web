@@ -149,8 +149,9 @@
       },
 
       fetchCommentData(currentCommentPage) {
-        getListForArticle(this.$route.params.id, currentCommentPage, 8).then(res => {
+        getListForArticle(this.$route.params.id, currentCommentPage, 4).then(res => {
           this.comments = res.data
+          console.log(this.comments)
         })
       },
       changeCommentRole(isAnonymous) {
@@ -172,18 +173,18 @@
               });
               this.anonymous = true
             });
-          } else {
-            this.form.name = this.name
           }
         }
       },
       submit() {
-        //如果是匿名,则需要填写昵称(如果不是匿名, 则会有用户名form.name
+        //如果是匿名,则需要填写昵称(如果不是匿名, 则会有用户名form.username
         if (this.anonymous){
           if (this.form.avatar == null || this.form.avatar === '') {
             this.$message.warning('请填写昵称')
             return false
           }
+        }else {
+          this.form.username = this.name
         }
         if (this.form.content == null || this.form.content === '') {
           this.$message.warning('请填写留言内容')
@@ -210,7 +211,7 @@
       },
 
       clearForm() {
-        this.form.name = ''
+        this.form.username = ''
         this.form.content = ''
         this.form.avatar = ''
       },
