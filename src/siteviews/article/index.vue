@@ -4,7 +4,8 @@
       <div class="post-header">
         <h1 class="post-title" itemprop="name headline"> {{article.title}} </h1>
         <div class="post-data">
-          <time v-if="article.editTime" itemprop="datePublished">This article was published in {{article.editTime}}</time>
+          <time v-if="article.editTime" itemprop="datePublished">This article was published in {{article.editTime}}
+          </time>
           under the <a href="#">{{article.categoryName}} category</a>
         </div>
       </div>
@@ -96,7 +97,7 @@
 </template>
 
 <script>
-  import {getListForArticle, add} from "@/api/comment";
+  import {add, getCommentList} from "@/api/comment";
   import {findById} from '@/api/article'
   import {mapGetters} from "vuex";
 
@@ -149,10 +150,9 @@
       },
 
       fetchCommentData(currentCommentPage) {
-        getListForArticle(this.$route.params.id, currentCommentPage, 4).then(res => {
+        getCommentList({page: currentCommentPage, limit: 4}, [{key:"id", value: this.$route.params.id}]).then(res => {
           this.comments = res.data
           console.log(this.comments)
-
         })
       },
       changeCommentRole(isAnonymous) {
@@ -341,7 +341,7 @@
     float: right
   }
 
-  .comment-author span{
+  .comment-author span {
     margin: 0;
     padding: 0;
     background-color: white;

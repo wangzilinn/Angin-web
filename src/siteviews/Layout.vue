@@ -120,11 +120,11 @@
     methods: {
       //创建页面时调用
       fetchData() {
-        getArticleList({page:1, limit:8},[{key:`tag`, value:`project`}]).then(res => {
+        getArticleList({page:1, limit:5},[{key:`tag`, value:`project`}]).then(res => {
           this.recentProjectList = res.data.elements
         })
-        getCommentList({page:1, limit:8}).then(res => {
-          this.recentArticleCommentList = res.data.elements
+        getCommentList({page:1, limit:5}).then(res => {
+          this.recentArticleCommentList = res.data
         })
       },
       init() {

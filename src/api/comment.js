@@ -1,10 +1,11 @@
 import request from '@/utils/request'
 
-//这个函数是首页查询所有评论时用的
+//这个函数是查询评论时用的
 //第一个参数是查询的页数据, 第二个是具体的查询参数,格式为:
-//{[条件1:value1],[条件2:value2]]
+//[{key:关键字1,value:限制1},{key:关键字2,value:限制2}]
+//如:[{key:"id", value : this.$route.params.id}]
 //当不传入第二个参数时 则为undefined
-export function getCommentList(pageDate, query) {
+export function getCommentList(pageData, query) {
   let added = ``
   if (query !== undefined) {
     query.forEach(function (item){
@@ -12,7 +13,7 @@ export function getCommentList(pageDate, query) {
     })
   }
   return request({
-    url: `/api/comment/list?page=${query.page}&limit=${query.limit}${added}`,
+    url: `/api/comment/list?page=${pageData.page}&limit=${pageData.limit}${added}`,
     method: 'get',
   })
 }
@@ -36,13 +37,6 @@ export function add(data) {
     url: `/api/comment`,
     method: 'post',
     data
-  })
-}
-
-export function getListForArticle(articleId, page, limit) {
-  return request({
-    url: `/api/comment/list?id=${articleId}&page=${page}&limit=${limit}`,
-    method: 'get'
   })
 }
 
