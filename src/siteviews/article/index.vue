@@ -4,7 +4,7 @@
       <div class="post-header">
         <h1 class="post-title" itemprop="name headline"> {{article.title}} </h1>
         <div class="post-data">
-          <time itemprop="datePublished">This article was published in {{article.editTime}}</time>
+          <time v-if="article.editTime" itemprop="datePublished">This article was published in {{article.editTime}}</time>
           under the <a href="#">{{article.categoryName}} category</a>
         </div>
       </div>
@@ -44,21 +44,21 @@
         </div>
         <el-timeline :reverse="reverse">
           <el-timeline-item
-            v-for="(activity, index) in activities"
+            v-for="(comment, index) in comments"
             :key="index"
-            :timestamp="activity.timestamp"
+            :timestamp="comment.date"
             placement="top">
             <el-card>
               <div class="comment-header">
                 <img class="avatar" src="/user.png" width="80" height="80">
                 <span class="comment-author">
-                      <a :href="123" target="_blank" rel="external nofollow">用户名</a>
-                      <span>个性签名</span>
+                  <span v-if="comment.username">{{comment.username}}</span>
+                  <span v-else>匿名用户: {{comment.avatar}}</span>
                   </span>
               </div>
               <div class="comment-content">
                 <span class="comment-author-at"></span>
-                <p>{{activity.content}}</p>
+                <p>{{comment.content}}</p>
                 <p></p>
               </div>
               <div class="comment-meta">
@@ -152,6 +152,7 @@
         getListForArticle(this.$route.params.id, currentCommentPage, 4).then(res => {
           this.comments = res.data
           console.log(this.comments)
+
         })
       },
       changeCommentRole(isAnonymous) {
@@ -178,12 +179,12 @@
       },
       submit() {
         //如果是匿名,则需要填写昵称(如果不是匿名, 则会有用户名form.username
-        if (this.anonymous){
+        if (this.anonymous) {
           if (this.form.avatar == null || this.form.avatar === '') {
             this.$message.warning('请填写昵称')
             return false
           }
-        }else {
+        } else {
           this.form.username = this.name
         }
         if (this.form.content == null || this.form.content === '') {
@@ -338,5 +339,12 @@
   .comment-meta .comment-reply {
     display: inline;
     float: right
+  }
+
+  .comment-author span{
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    font-size: 1rem;
   }
 </style>
