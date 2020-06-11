@@ -4,7 +4,7 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 /* Layout */
-import Layout from '@/layout'
+import Layout from '@/dashboardviews/layout'
 import SiteLayout from '@/siteviews/Layout'
 
 /**
@@ -34,13 +34,13 @@ import SiteLayout from '@/siteviews/Layout'
 export const constantRoutes = [
   {
     path: '/login',
-    component: () => import('@/views/login/index'),
+    component: () => import('@/dashboardviews/login/index'),
     hidden: true
   },
 
   {
     path: '/404',
-    component: () => import('@/views/404'),
+    component: () => import('@/dashboardviews/404'),
     hidden: true
   },
 
@@ -49,7 +49,7 @@ export const constantRoutes = [
     component: Layout,
     children: [{
       path: '',
-      component: () => import('@/views/dashboard/index'),
+      component: () => import('@/dashboardviews/dashboard/index'),
       meta: { title: 'Dashboard', icon: 'dashboard' }
     }]
   },
@@ -61,7 +61,7 @@ export const constantRoutes = [
     children: [
       {
         path: 'index',
-        component: () => import('@/views/profile/index'),
+        component: () => import('@/dashboardviews/profile/index'),
         name: 'Profile',
         meta: { title: 'Profile', icon: 'user', noCache: true }
       }
@@ -79,20 +79,20 @@ export const constantRoutes = [
     children: [
       {
         path: 'add',
-        component: () => import('@/views/article/add'),
+        component: () => import('@/dashboardviews/article/add'),
         name: '撰写文章',
         meta: {title: '撰写文章', icon: 'edit'}
       },
       {
         path: 'edit/:id(\\d+)',
-        component: () => import('@/views/article/edit'),
+        component: () => import('@/dashboardviews/article/edit'),
         name: '文章编辑',
         meta: {title: '文章编辑', noCache: true},
         hidden: true
       },
       {
         path: 'list',
-        component: () => import('@/views/article/index'),
+        component: () => import('@/dashboardviews/article/index'),
         name: '文章列表',
         meta: {title: '文章列表', icon: 'list'}
       }
@@ -110,25 +110,25 @@ export const constantRoutes = [
     children: [
       {
         path: 'category',
-        component: () => import('@/views/category/index'),
+        component: () => import('@/dashboardviews/category/index'),
         name: '分类管理',
         meta: {title: '分类管理', icon: 'list'}
       },
       {
         path: 'tag',
-        component: () => import('@/views/tag/index'),
+        component: () => import('@/dashboardviews/tag/index'),
         name: '标签管理',
         meta: {title: '标签管理', icon: 'tags'}
       },
       {
         path: 'link',
-        component: () => import('@/views/link/index'),
+        component: () => import('@/dashboardviews/link/index'),
         name: '友链管理',
         meta: {title: '友链管理', icon: 'guide'}
       },
       {
         path: 'comment',
-        component: () => import('@/views/comment/index'),
+        component: () => import('@/dashboardviews/comment/index'),
         name: '评论管理',
         meta: {title: '评论管理', icon: 'message'}
       }
@@ -146,13 +146,13 @@ export const constantRoutes = [
     children: [
       {
         path: 'log',
-        component: () => import('@/views/log/index'),
+        component: () => import('@/dashboardviews/log/index'),
         name: '操作日志',
         meta: {title: '操作日志', icon: 'bug'}
       },
       {
         path: 'qiniu',
-        component: () => import('@/views/qiniu/index'),
+        component: () => import('@/dashboardviews/qiniu/index'),
         name: '对象储存',
         meta: {title: '对象储存', icon: 'cloud'}
       }
@@ -166,7 +166,7 @@ export const constantRoutes = [
     children: [{
       path: 'api',
       name: 'Api文档',
-      component: () => import('@/views/swagger/index'),
+      component: () => import('@/dashboardviews/swagger/index'),
       meta: { title: 'Api文档', icon: 'api' }
     }]
   },

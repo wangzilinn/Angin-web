@@ -79,7 +79,7 @@
 
 <script>
   import { getCommentList, del} from '@/api/comment'
-  import Pagination from '@/components/Pagination'
+  import Pagination from '@/components/Pagination/index'
 
   export default {
     components: { Pagination },

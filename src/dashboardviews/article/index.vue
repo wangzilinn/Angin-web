@@ -83,7 +83,7 @@
 <script>
   import { getArticleList, del } from '@/api/article'
   import { getAllCategory } from '@/api/category'
-  import Pagination from '@/components/Pagination'
+  import Pagination from '@/components/Pagination/index'
 
   export default {
     components: { Pagination },

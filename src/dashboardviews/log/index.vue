@@ -5,9 +5,6 @@
       <el-button class="filter-item" size="mini" type="primary" icon="el-icon-search" @click="fetchData">
         查询
       </el-button>
-      <el-button class="filter-item" size="mini" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="dialogVisible = true">
-        新增
-      </el-button>
     </div>
 
     <el-table
@@ -24,16 +21,43 @@
           {{ scope.row.id }}
         </template>
       </el-table-column>
-      <el-table-column label="名称">
+      <el-table-column label="操作人" width="100">
         <template slot-scope="scope">
-          {{ scope.row.name }}
+          {{ scope.row.username }}
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
+      <el-table-column label="操作描述" width="120">
+        <template slot-scope="scope">
+          {{ scope.row.operation }}
+        </template>
+      </el-table-column>
+      <el-table-column label="耗时（毫秒）" width="100">
+        <template slot-scope="scope">
+          {{ scope.row.time }}
+        </template>
+      </el-table-column>
+      <el-table-column label="操作方法" width="250">
+        <template slot-scope="scope">
+          {{ scope.row.method }}
+        </template>
+      </el-table-column>
+      <el-table-column label="操作参数">
+        <template slot-scope="scope">
+          {{ scope.row.method }}
+        </template>
+      </el-table-column>
+      <el-table-column label="IP" width="150">
+        <template slot-scope="scope">
+          {{ scope.row.ip }}
+        </template>
+      </el-table-column>
+      <el-table-column label="操作地点" width="240">
+        <template slot-scope="scope">
+          {{ scope.row.location }}
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" align="center" width="100" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
-          <el-button type="primary" size="mini" @click="handleUpdate(row)">
-            Edit
-          </el-button>
           <el-button size="mini" type="danger" @click="handleDel(row.id)">
             Delete
           </el-button>
@@ -42,26 +66,12 @@
     </el-table>
 
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="fetchData" />
-
-    <!-- 分类添加 -->
-    <el-dialog title="修改/新增" :visible.sync="dialogVisible" width="30%" :append-to-body='true'
-               :before-close="handleClose">
-        <span>
-            <el-input placeholder="请输入名称" v-model="form.name">
-                <template slot="prepend">名称</template>
-            </el-input>
-        </span>
-      <span slot="footer" class="dialog-footer">
-            <el-button @click="dialogVisible = false">取 消</el-button>
-            <el-button type="primary" @click="submitAction">确 定</el-button>
-        </span>
-    </el-dialog>
   </div>
 </template>
 
 <script>
-  import { getList, del, add, update } from '@/api/category'
-  import Pagination from '@/components/Pagination'
+  import { getList, del } from '@/api/log'
+  import Pagination from '@/components/Pagination/index'
 
   export default {
     components: { Pagination },
@@ -75,8 +85,6 @@
         },
         total: 0,
         query: {},
-        form: {},
-        dialogVisible: false,
       }
     },
     created() {
@@ -90,27 +98,6 @@
           this.listLoading = false
           this.total = response.data.total
         })
-      },
-
-      handleUpdate(row) {
-        this.form = row
-        this.dialogVisible = true
-      },
-
-      submitAction() {
-        if (this.form.id == undefined) {
-          add(this.form).then(res => {
-            this.$message.success(res.msg)
-            this.fetchData()
-          })
-        } else {
-          update(this.form).then(res => {
-            this.$message.success(res.msg)
-            this.fetchData()
-          })
-        }
-        this.dialogVisible = false
-        this.handleClose()
       },
 
       handleClose() {

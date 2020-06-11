@@ -19,6 +19,7 @@
             <a href="/login" v-else>Login</a>
             <a href="/about">About</a>
           </ul>
+
         </div>
       </div>
     </header>
@@ -96,6 +97,7 @@
   import {getArticleList} from "@/api/article";
   import {getCommentList} from "@/api/comment";
   import {mapGetters} from "vuex";
+  import GithubCorner from "@/components/GithubCorner/index";
 
   export default {
     name: "Layout",
@@ -124,7 +126,7 @@
           this.recentProjectList = res.data.elements
         })
         getCommentList({page:1, limit:5}).then(res => {
-          this.recentArticleCommentList = res.data
+          this.recentArticleCommentList = res.data.elements
         })
       },
       init() {

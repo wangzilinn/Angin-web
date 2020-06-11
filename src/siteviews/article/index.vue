@@ -1,4 +1,5 @@
 <template>
+
   <div class="content-index">
     <article class="main-content page-page">
       <div class="post-header">
@@ -100,6 +101,7 @@
   import {add, getCommentList} from "@/api/comment";
   import {findById} from '@/api/article'
   import {mapGetters} from "vuex";
+  import GithubCorner from '@/components/GithubCorner'
 
   export default {
     name: "index",
@@ -120,16 +122,6 @@
         currentCommentPage: 1,
         reverse: true,
         anonymous: anonymous,
-        activities: [{
-          content: '活动按期开始',
-          timestamp: '2018-04-15'
-        }, {
-          content: '通过审核',
-          timestamp: '2018-04-13'
-        }, {
-          content: '创建成功',
-          timestamp: '2018-04-11'
-        }]
       }
     },
     created() {
@@ -150,8 +142,8 @@
       },
 
       fetchCommentData(currentCommentPage) {
-        getCommentList({page: currentCommentPage, limit: 4}, [{key:"id", value: this.$route.params.id}]).then(res => {
-          this.comments = res.data
+        getCommentList({page: currentCommentPage, limit: 4}, [{key: "id", value: this.$route.params.id}]).then(res => {
+          this.comments = res.data.elements
           console.log(this.comments)
         })
       },

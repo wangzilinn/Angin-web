@@ -47,7 +47,7 @@
 
 <script>
   import Avatar from './Avatar'
-  import PanThumb from '@/components/PanThumb'
+  import PanThumb from '@/components/PanThumb/index'
 
   export default {
     components: {Avatar, PanThumb},

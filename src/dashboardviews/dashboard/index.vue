@@ -1,6 +1,5 @@
 <template>
   <div class="dashboard-editor-container">
-    <github-corner class="github-corner" />
     <el-card class="welcome-card">
       <el-row :gutter="40">
         <el-card shadow="never" style="margin: 0 20px;">
@@ -126,8 +125,8 @@
   import { getCommentList } from '@/api/comment'
   import { getArticleList } from '@/api/article'
   import { mapGetters } from 'vuex'
-  import GithubCorner from '@/components/GithubCorner'
-  import PanThumb from '@/components/PanThumb'
+  import GithubCorner from '@/components/GithubCorner/index'
+  import PanThumb from '@/components/PanThumb/index'
 
   export default {
     name: 'DashboardAdmin',

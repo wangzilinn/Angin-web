@@ -29,11 +29,6 @@
           {{ scope.row.name }}
         </template>
       </el-table-column>
-      <el-table-column label="URL">
-        <template slot-scope="scope">
-          {{ scope.row.url }}
-        </template>
-      </el-table-column>
       <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button type="primary" size="mini" @click="handleUpdate(row)">
@@ -52,11 +47,8 @@
     <el-dialog title="修改/新增" :visible.sync="dialogVisible" width="30%" :append-to-body='true'
                :before-close="handleClose">
         <span>
-            <el-input placeholder="请输入名称" v-model="form.name" style="margin-bottom: 12px">
+            <el-input placeholder="请输入名称" v-model="form.name">
                 <template slot="prepend">名称</template>
-            </el-input>
-          <el-input placeholder="请输入URL" v-model="form.url">
-                <template slot="prepend">URL</template>
             </el-input>
         </span>
       <span slot="footer" class="dialog-footer">
@@ -68,8 +60,8 @@
 </template>
 
 <script>
-  import { getList, del, add, update } from '@/api/link'
-  import Pagination from '@/components/Pagination'
+  import { getList, del, add, update } from '@/api/category'
+  import Pagination from '@/components/Pagination/index'
 
   export default {
     components: { Pagination },
@@ -123,7 +115,6 @@
 
       handleClose() {
         this.form = {}
-        this.dialogVisible = false
       },
 
       handleDel(id) {

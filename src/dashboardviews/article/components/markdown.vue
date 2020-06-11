@@ -5,7 +5,7 @@
 </template>
 
 <script>
-    import MarkdownEditor from '@/components/MarkdownEditor'
+    import MarkdownEditor from '@/components/MarkdownEditor/index'
 
     export default {
         name: 'markdown',

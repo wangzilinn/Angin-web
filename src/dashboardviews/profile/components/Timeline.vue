@@ -1,12 +1,5 @@
 <template>
-  <div class="app-container">
-    <div class="filter-container">
-      <el-input v-model="query.name" size="mini" placeholder="名称" style="width: 200px;" class="filter-item"/>
-      <el-button class="filter-item" size="mini" type="primary" icon="el-icon-search" @click="fetchData">
-        查询
-      </el-button>
-    </div>
-
+  <div class="block">
     <el-table
       v-loading="listLoading"
       :data="list"
@@ -14,46 +7,30 @@
       border
       fit
       size="mini"
-      highlight-current-row
-    >
-      <el-table-column align="center" label="ID" width="95">
-        <template slot-scope="scope">
-          {{ scope.row.id }}
-        </template>
-      </el-table-column>
-      <el-table-column label="操作人" width="100">
+      highlight-current-row>
+      <el-table-column label="账户" width="100">
         <template slot-scope="scope">
           {{ scope.row.username }}
         </template>
       </el-table-column>
-      <el-table-column label="操作描述" width="120">
-        <template slot-scope="scope">
-          {{ scope.row.operation }}
-        </template>
-      </el-table-column>
-      <el-table-column label="耗时（毫秒）" width="100">
-        <template slot-scope="scope">
-          {{ scope.row.time }}
-        </template>
-      </el-table-column>
-      <el-table-column label="操作方法" width="250">
-        <template slot-scope="scope">
-          {{ scope.row.method }}
-        </template>
-      </el-table-column>
-      <el-table-column label="操作参数">
-        <template slot-scope="scope">
-          {{ scope.row.method }}
-        </template>
-      </el-table-column>
-      <el-table-column label="IP" width="150">
+      <el-table-column label="IP地址" width="120">
         <template slot-scope="scope">
           {{ scope.row.ip }}
         </template>
       </el-table-column>
-      <el-table-column label="操作地点" width="240">
+      <el-table-column label="登录地点">
         <template slot-scope="scope">
           {{ scope.row.location }}
+        </template>
+      </el-table-column>
+      <el-table-column label="登录时间" width="150">
+        <template slot-scope="scope">
+          {{ scope.row.createTime }}
+        </template>
+      </el-table-column>
+      <el-table-column label="登录设备">
+        <template slot-scope="scope">
+          {{ scope.row.device }}
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" width="100" class-name="small-padding fixed-width">
@@ -65,16 +42,16 @@
       </el-table-column>
     </el-table>
 
-    <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="fetchData" />
+    <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit"
+                @pagination="fetchData"/>
   </div>
 </template>
 
 <script>
-  import { getList, del } from '@/api/log'
-  import Pagination from '@/components/Pagination'
+  import {getList, del} from '@/api/loginlog'
+  import Pagination from '@/components/Pagination/index'
 
   export default {
-    components: { Pagination },
     data() {
       return {
         list: null,
@@ -87,6 +64,7 @@
         query: {},
       }
     },
+    components: { Pagination },
     created() {
       this.fetchData()
     },
