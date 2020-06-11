@@ -4,26 +4,7 @@
       <el-row :gutter="40">
         <el-card shadow="never" style="margin: 0 20px;">
           <el-col :md="12" :sm="12" :lg="12">
-            <div class="welcome-text">
-              <pan-thumb :image="avatar" :height="'100px'" :width="'100px'" :hoverable="false"></pan-thumb>
-              <div class="user-info">
-                <div class="random-message">
-                  <span id="welcome-message" v-html="welcomeMessage"></span>
-                </div>
-                <div class="user-login-info">
-                  上次登录时间：<span id="last-login-time">2019-09-24T08:45:36.000+0000</span>
-                </div>
-              </div>
-            </div>
-          </el-col>
-          <el-col :md="12" :sm="12" :lg="12">
             <div class="news-text">
-              <el-card class="box-card">
-                <div slot="header" class="box-text">
-                  <span>今日IP</span>
-                </div>
-                <div class="box-num">12</div>
-              </el-card>
               <el-card class="box-card">
                 <div slot="header" class="box-text">
                   <span>文章总量</span>
