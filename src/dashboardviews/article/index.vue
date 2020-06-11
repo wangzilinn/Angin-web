@@ -5,7 +5,7 @@
       <el-select v-model="query.category" size="mini" placeholder="选择分类" clearable class="filter-item" style="width: 130px">
         <el-option v-for="item in categoryList" :label="item.name" :key="item.id" :value="item.name" />
       </el-select>
-      <el-select multiple v-model="query.tags" size="mini" placeholder="文章标签"  class="filter-item" style="width: 130px">
+      <el-select multiple v-model="query.tags" size="mini" placeholder="文章标签"  class="filter-item" style="width: 200px">
         <el-option v-for="item in tagList" :label="item.name" :key="item.id" :value="item.name"></el-option>
       </el-select>
       <el-button class="filter-item" size="mini" type="primary" icon="el-icon-search" @click="fetchData">
@@ -50,15 +50,15 @@
           {{ scope.row.createTime }}
         </template>
       </el-table-column>
-      <el-table-column label="发布时间" width="140" align="center">
+      <el-table-column label="最后编辑时间" width="140" align="center">
         <template slot-scope="scope">
-          {{ scope.row.publishTime }}
+          {{ scope.row.editTime }}
         </template>
       </el-table-column>
       <el-table-column class-name="status-col" label="状态" width="110" align="center">
         <template slot-scope="scope">
 <!--          <el-tag :type="scope.row.state == '1' ? 'success' : 'warning'">{{ scope.row.state == '1' ? '已发布' : '未发布' }}</el-tag>-->
-          {{scope.row.state}}
+          <el-tag type="success">{{scope.row.state}}</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="标签" width="110" align="center">
@@ -72,7 +72,7 @@
           <el-button type="primary" size="mini" @click="handleUpdate(row.id)">
             Edit
           </el-button>
-          <el-button v-if="row.status!='deleted'" size="mini" type="danger" @click="handleDel(row.id)">
+          <el-button v-if="row.status!=='deleted'" size="mini" type="danger" @click="handleDel(row.id)">
             Delete
           </el-button>
         </template>
@@ -122,7 +122,7 @@
           this.listLoading = false
           this.pageData.totalPages = response.data.totalPages
           this.pageData.page = response.data.currentPage
-          console.log(`${this.pageData.page}/${this.pageData.totalPages}`)
+          console.log(`第${this.pageData.page}页/共${this.pageData.totalPages}页`)
         })
       },
       resetFilter(){

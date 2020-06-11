@@ -50,7 +50,7 @@ export function add(data) {
 
 export function del(id) {
   return request({
-    url: `/api/article/${id}`,
+    url: `/api/article?id=${id}`,
     method: 'delete'
   })
 }
