@@ -1,34 +1,37 @@
 <template>
   <div class="app-container">
+    {{mode}}
     <el-card>
       <el-form ref="form" :model="form" label-width="80px">
         <el-form-item label="文章标题">
           <el-input v-model="form.title"></el-input>
         </el-form-item>
         <el-form-item label="文章分类" style="display: inline-block">
-          <el-select v-model="form.category" placeholder="请选择文章分类" style="width:400px">
-            <el-option v-for="item in categoryList" :label="item.name" :key="item.id" :value="item.id"></el-option>
+          <!--这里直接把category存进去了-->
+          <el-select v-model="form.categoryName" placeholder="请选择文章分类" style="width:400px">
+            <!--value值是选中的那个-->
+            <el-option v-for="item in categoryList" :label="item.name" :key="item.id" :value="item.name"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="文章标签" style="display: inline-block">
-          <el-select multiple v-model="tags" placeholder="请选择文章标签" style="width: 500px">
-            <el-option v-for="item in tagList" :label="item.name" :key="item.id" :value="item.id"></el-option>
+          <el-select multiple v-model="form.tagNames" placeholder="请选择文章标签" style="width: 500px">
+            <el-option v-for="item in tagList" :label="item.name" :key="item.id" :value="item.name"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="文章内容">
           <div class="editor-container">
-            <markdown-editor ref="markdownEditor" :content="form.contentMd" @editor="editor" height="600px"/>
+            <markdown-editor ref="markdownEditor" :content="form.contentMd" @editor="editor" height="600px"></markdown-editor>
           </div>
         </el-form-item>
         <el-form-item class="cover" label="文章封面">
           <el-upload
             :headers="tokenHeader"
             class="avatar-uploader"
-            :action="qiNiuUploadApi"
+            :action="imgApi"
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload">
-            <img v-if="form.cover" :src="form.cover" class="avatar">
+            <img v-if="form.cover" :src="coverUrl" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
@@ -43,28 +46,35 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
-  import { update, findById } from '@/api/article'
+  import {mapGetters} from 'vuex'
+  import {add, findById} from '@/api/article'
   import {getAllCategory} from '@/api/category'
   import {getAllTag} from "@/api/tag";
   import MarkdownEditor from './components/markdown'
+  import {userInfo} from '@/store/modules/user.js'
 
   export default {
     name: "edit",
     components: {MarkdownEditor},
     computed: {
       ...mapGetters([
-        'qiNiuUploadApi',
+        'imgApi',
         'token'
       ])
     },
     data() {
+      let mode='new'
+      if(this.$route.params.id !== undefined){
+        mode = 'edit'
+      }
       return {
+        mode: mode,
         form: {},
-        tags: [],
         tokenHeader: {},
         categoryList: null,
         tagList: null,
+        coverUrl: '',
+        articleId: this.$route.params.id
       }
     },
     created() {
@@ -72,49 +82,44 @@
       this.fetchData()
     },
     methods: {
+
       fetchData() {
-        findById(this.$route.params.id).then(res => {
-          this.form = res.data
-
-          if (this.form.tags instanceof Array) {
-            this.form.tags.forEach(tag => {
-              this.tags.push(tag.id)
-            })
-          }
-
-          getAllCategory().then(response => {
-            this.categoryList = response.data
-
-            for (let i = 0; i < this.categoryList.length; i++) {
-              if (response.data[i].id == res.data.category) {
-                this.form.category = response.data[i].name
-              }
-            }
-          })
+        getAllCategory().then(response => {
+          this.categoryList = response.data
         })
         getAllTag().then(res => {
           this.tagList = res.data
         })
+        if (this.mode === 'edit') {
+          findById(this.articleId).then(res =>{
+            this.form = res.data
+            console.log(this.form)
+            this.coverUrl = this.getCoverUrl(this.form.cover)
+          })
+        }
       },
-
       clearForm() {
         this.form = {}
-        this.tags = []
       },
-
+      getCoverUrl(imgId){
+        return this.imgApi + "/"+ imgId;
+      },
       //markdown编辑器数据变化时触发
-      editor(val){
+      editor(val) {
         this.form.contentMd = val.md;
         this.form.content = val.html;
       },
 
       handleAvatarSuccess(res, file) {
-        if (res.code == 500) {
+        if (res.code === 500) {
           this.$message.error(res.msg)
         }
-        if (res.code == 200) {
+        if (res.code === 200) {
           this.$message.success(res.msg)
-          this.form.cover = res.data.url;
+          //返回的结果中, data的内容是图片的id, 与imgApi组合形成图片网址
+          this.form.cover = res.data;
+          this.coverUrl = this.getCoverUrl(this.form.cover);
+          console.log(this.coverUrl)
         }
       },
       beforeAvatarUpload(file) {
@@ -129,37 +134,39 @@
         }
         return isJPG && isLt2M;
       },
-
+      //提交草稿
       draftSubmit() {
-        if (this.tags != null || this.tags.length > 0) {
-          let tags = []
-          this.tags.forEach(t => {
-            tags.push({id: t})
-          })
-          this.form.tags = tags
-        } else {
-          this.form.tags = null
-        }
+        //if (this.articleTags != null || this.articleTags.length > 0) {
+        //  let tags = []
+        //  this.articleTags.forEach(t => {
+        //    tags.push({id: t})
+        //  })
+        //  this.form.tagNames = tags
+        //} else {
+        //  this.form.tagNames = null
+        //}
 
-        this.form.state = 0
-        update(this.form).then(res => {
+        this.form.state = 'release'
+        add(this.form).then(res => {
+          console.log(res)
+          this.$message.success(res.msg)
           this.$router.replace('/admin/article/list')
         })
 
       },
+      //提交正式版
       releaseSubmit() {
-        if (this.tags != null || this.tags.length > 0) {
-          let tags = []
-          this.tags.forEach(t => {
-            tags.push({id: t})
-          })
-          this.form.tags = tags
-        } else {
-          this.form.tags = null
-        }
-
-        this.form.state = 1
-        update(this.form).then(res => {
+        //装入标签, form是最终提交的表单
+        //if (this.articleTags != null || this.articleTags.length > 0) {
+        //  this.form.tagNames = this.articleTags
+        //} else {
+        //  this.form.tagNames = null
+        //}
+        this.form.author = userInfo.name
+        this.form.state = 'release'
+        add(this.form).then(res => {
+          console.log(res)
+          this.$message.success(res.msg)
           this.$router.replace('/admin/article/list')
         })
       },
@@ -178,6 +185,7 @@
       height: 40px !important;
     }
   }
+
   .cover {
     /deep/ .avatar-uploader .el-upload {
       border: 1px dashed #d9d9d9;
@@ -186,9 +194,11 @@
       position: relative;
       overflow: hidden;
     }
+
     /deep/ .avatar-uploader .el-upload:hover {
       border-color: #409EFF;
     }
+
     /deep/ .avatar-uploader-icon {
       font-size: 28px;
       color: #8c939d;
@@ -197,6 +207,7 @@
       line-height: 178px;
       text-align: center;
     }
+
     /deep/ .avatar {
       width: 178px;
       height: 178px;

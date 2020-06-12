@@ -79,12 +79,12 @@ export const constantRoutes = [
     children: [
       {
         path: 'add',
-        component: () => import('@/dashboardviews/article/add'),
+        component: () => import('@/dashboardviews/article/edit'),
         name: '撰写文章',
         meta: {title: '撰写文章', icon: 'edit'}
       },
       {
-        path: 'edit/:id(\\d+)',
+        path: 'edit/:id',
         component: () => import('@/dashboardviews/article/edit'),
         name: '文章编辑',
         meta: {title: '文章编辑', noCache: true},
