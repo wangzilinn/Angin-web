@@ -8,7 +8,7 @@ export function getList(data, query) {
   })
 }
 
-export function getAllTag() {
+export function getAllTags() {
   return request({
     url: `/api/article/tag/list`,
     method: 'get'
@@ -22,7 +22,7 @@ export function findById(id) {
   })
 }
 
-export function update(data) {
+export function updateTag(data) {
   return request({
     url: `/api/article/tag`,
     method: 'put',
@@ -30,7 +30,7 @@ export function update(data) {
   })
 }
 
-export function add(data) {
+export function addTag(data) {
   return request({
     url: `/api/tag`,
     method: 'post',
@@ -38,7 +38,7 @@ export function add(data) {
   })
 }
 
-export function del(id) {
+export function deleteTag(id) {
   return request({
     url: `/api/tag/${id}`,
     method: 'delete'

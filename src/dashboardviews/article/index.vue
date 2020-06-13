@@ -27,6 +27,7 @@
     >
       <el-table-column align="center" label="序号" width="95">
         <template slot-scope="scope">
+          <!--递增序号-->
           {{(pageData.page - 1) * pageData.limit + scope.$index + 1}}
         </template>
       </el-table-column>
@@ -57,7 +58,6 @@
       </el-table-column>
       <el-table-column class-name="status-col" label="状态" width="110" align="center">
         <template slot-scope="scope">
-<!--          <el-tag :type="scope.row.state == '1' ? 'success' : 'warning'">{{ scope.row.state == '1' ? '已发布' : '未发布' }}</el-tag>-->
           <el-tag type="success">{{scope.row.state}}</el-tag>
         </template>
       </el-table-column>
@@ -84,10 +84,10 @@
 </template>
 
 <script>
-  import { getArticleList, del } from '@/api/article'
-  import { getAllCategory } from '@/api/category'
+  import { getArticleList, deleteArticle } from '@/api/article'
+  import { getAllCategories } from '@/api/category'
   import Pagination from '@/components/Pagination/index'
-  import {getAllTag} from "@/api/tag";
+  import {getAllTags} from "@/api/tag";
 
   export default {
     components: { Pagination },
@@ -107,10 +107,10 @@
     },
     created() {
       this.fetchData()
-      getAllCategory().then(res => {
+      getAllCategories().then(res => {
         this.categoryList = res.data
       })
-      getAllTag().then(res => {
+      getAllTags().then(res => {
         this.tagList = res.data
       })
     },
@@ -139,7 +139,7 @@
           type: 'warning',
           center: true
         }).then(() => {
-          del(id).then(response => {
+          deleteArticle(id).then(response => {
             this.$message.success(response.msg)
             this.fetchData();
           });

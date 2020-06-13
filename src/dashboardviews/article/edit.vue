@@ -49,9 +49,9 @@
 
 <script>
   import {mapGetters} from 'vuex'
-  import {update, add, findById} from '@/api/article'
-  import {getAllCategory} from '@/api/category'
-  import {getAllTag} from "@/api/tag";
+  import {updateArticle, addArticle, findArticleById} from '@/api/article'
+  import {getAllCategories} from '@/api/category'
+  import {getAllTags} from "@/api/tag";
   import MarkdownEditor from './components/markdown'
   import {userInfo} from '@/store/modules/user.js'
 
@@ -87,14 +87,14 @@
     methods: {
 
       fetchData() {
-        getAllCategory().then(response => {
+        getAllCategories().then(response => {
           this.categoryList = response.data
         })
-        getAllTag().then(res => {
+        getAllTags().then(res => {
           this.tagList = res.data
         })
         if (this.mode === 'edit') {
-          findById(this.articleId).then(res =>{
+          findArticleById(this.articleId).then(res =>{
             this.form = res.data
             console.log(this.form)
             this.coverUrl = this.getCoverUrl(this.form.cover)
@@ -140,7 +140,7 @@
       //提交草稿
       draftSubmit() {
         this.form.state = 'release'
-        add(this.form).then(res => {
+        addArticle(this.form).then(res => {
           console.log(res)
           this.$message.success(res.msg)
           this.$router.replace('/admin/article/list')
@@ -151,14 +151,14 @@
       releaseSubmit() {
         this.form.author = userInfo.name
         this.form.state = 'release'
-        add(this.form).then(res => {
+        addArticle(this.form).then(res => {
           console.log(res)
           this.$message.success(res.msg)
           this.$router.replace('/admin/article/list')
         })
       },
       updateSubmit(){
-        update(this.form).then(res => {
+        updateArticle(this.form).then(res => {
           console.log(res)
           this.$message.success(res.msg)
           this.$router.replace('/admin/article/list')

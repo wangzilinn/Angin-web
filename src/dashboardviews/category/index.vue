@@ -21,12 +21,19 @@
     >
       <el-table-column align="center" label="ID" width="95">
         <template slot-scope="scope">
-          {{ scope.row.id }}
+          <!--递增序号-->
+          {{(pageData.page - 1) * pageData.limit + scope.$index + 1}}
         </template>
       </el-table-column>
       <el-table-column label="名称">
         <template slot-scope="scope">
           {{ scope.row.name }}
+        </template>
+      </el-table-column>
+      <el-table-column label="文章数">
+        <template slot-scope="scope">
+          <span v-if="scope.row.articleId.length">{{ scope.row.articleId.length}}</span>
+          <span v-else>0</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
@@ -41,10 +48,10 @@
       </el-table-column>
     </el-table>
 
-    <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="fetchData" />
+    <pagination v-show="pageData.totalPages>0" :total="pageData.totalPages" :page.sync="pageData.page" :limit.sync="pageData.limit" @pagination="fetchData" />
 
     <!-- 分类添加 -->
-    <el-dialog title="修改/新增" :visible.sync="dialogVisible" width="30%" :append-to-body='true'
+    <el-dialog title="新增" :visible.sync="dialogVisible" width="30%" :append-to-body='true'
                :before-close="handleClose">
         <span>
             <el-input placeholder="请输入名称" v-model="form.name">
@@ -60,7 +67,7 @@
 </template>
 
 <script>
-  import { getList, del, add, update } from '@/api/category'
+  import {deleteArticle, addCategory, updateCategory, getCategoryList} from '@/api/category'
   import Pagination from '@/components/Pagination/index'
 
   export default {
@@ -72,6 +79,11 @@
         listQuery: {
           page: 1,
           limit: 20
+        },
+        pageData: {
+          limit: 20,
+          page:1,
+          totalPages: 1,
         },
         total: 0,
         query: {},
@@ -85,10 +97,13 @@
     methods: {
       fetchData() {
         this.listLoading = true
-        getList(this.query, this.listQuery).then(response => {
-          this.list = response.data.rows
+        getCategoryList(this.pageData).then(response => {
+          this.list = response.data.elements
           this.listLoading = false
-          this.total = response.data.total
+          this.pageData.totalPages = response.data.totalPages
+          this.pageData.page = response.data.currentPage
+          console.log( this.list)
+          console.log(`第${this.pageData.page}页/共${this.pageData.totalPages}页`)
         })
       },
 
@@ -98,13 +113,13 @@
       },
 
       submitAction() {
-        if (this.form.id == undefined) {
-          add(this.form).then(res => {
+        if (this.form.id === undefined) {
+          addCategory(this.form).then(res => {
             this.$message.success(res.msg)
             this.fetchData()
           })
         } else {
-          update(this.form).then(res => {
+          updateCategory(this.form).then(res => {
             this.$message.success(res.msg)
             this.fetchData()
           })
@@ -124,7 +139,7 @@
           type: 'warning',
           center: true
         }).then(() => {
-          del(id).then(response => {
+          deleteArticle(id).then(response => {
             this.$message.success(response.msg)
             this.fetchData();
           });

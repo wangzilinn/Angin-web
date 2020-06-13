@@ -98,8 +98,8 @@
 </template>
 
 <script>
-  import {add, getCommentList} from "@/api/comment";
-  import {findById} from '@/api/article'
+  import {addComment, getCommentList} from "@/api/comment";
+  import {findArticleById} from '@/api/article'
   import {mapGetters} from "vuex";
   import GithubCorner from '@/components/GithubCorner'
 
@@ -135,7 +135,7 @@
     methods: {
       //页面加载时调用
       fetchData() {
-        findById(this.$route.params.id).then(res => {
+        findArticleById(this.$route.params.id).then(res => {
           this.article = res.data
         })
         this.fetchCommentData(this.currentCommentPage)
@@ -184,7 +184,7 @@
           return false;
         }
 
-        add(this.form).then(res => {
+        addComment(this.form).then(res => {
           if (res.code === 200) {
             this.$message.success('评论成功')
             this.fetchCommentData(this.currentCommentPage)

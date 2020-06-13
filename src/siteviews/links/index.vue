@@ -112,7 +112,7 @@
 </template>
 
 <script>
-  import {getListForLink, add} from "@/api/comment";
+  import {getListForLink, addComment} from "@/api/comment";
   import {findAllLink} from '@/api/link'
   export default {
     name: "index",
@@ -155,7 +155,7 @@
           return false;
         }
 
-        add(this.form).then(res => {
+        addComment(this.form).then(res => {
           if (res.code == 200) {
             this.$message.success('评论成功')
             this.fetchData(this.current)

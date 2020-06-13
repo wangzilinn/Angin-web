@@ -60,7 +60,7 @@
 </template>
 
 <script>
-  import { getList, del, add, update } from '@/api/tag'
+  import { getList, deleteTag, addTag, updateTag } from '@/api/tag'
   import Pagination from '@/components/Pagination/index'
 
   export default {
@@ -99,12 +99,12 @@
 
       submitAction() {
         if (this.form.id == undefined) {
-          add(this.form).then(res => {
+          addTag(this.form).then(res => {
             this.$message.success(res.msg)
             this.fetchData()
           })
         } else {
-          update(this.form).then(res => {
+          updateTag(this.form).then(res => {
             this.$message.success(res.msg)
             this.fetchData()
           })
@@ -124,7 +124,7 @@
           type: 'warning',
           center: true
         }).then(() => {
-          del(id).then(response => {
+          deleteTag(id).then(response => {
             this.$message.success(response.msg)
             this.fetchData();
           });

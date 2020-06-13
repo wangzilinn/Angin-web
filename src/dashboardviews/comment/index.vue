@@ -78,7 +78,7 @@
 </template>
 
 <script>
-  import { getCommentList, del} from '@/api/comment'
+  import { getCommentList, deleteComment} from '@/api/comment'
   import Pagination from '@/components/Pagination/index'
 
   export default {
@@ -115,7 +115,7 @@
           type: 'warning',
           center: true
         }).then(() => {
-          del(id).then(response => {
+          deleteComment(id).then(response => {
             this.$message.success(response.msg)
             this.fetchData();
           });

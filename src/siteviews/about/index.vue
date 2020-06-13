@@ -117,7 +117,7 @@
 </template>
 
 <script>
-  import {getListForAbout, add} from "@/api/comment";
+  import {getListForAbout, addComment} from "@/api/comment";
   export default {
     name: "index",
     data() {
@@ -155,7 +155,7 @@
           return false;
         }
 
-        add(this.form).then(res => {
+        addComment(this.form).then(res => {
           if (res.code == 200) {
             this.$message.success('评论成功')
             this.fetchData(this.current)
