@@ -51,7 +51,7 @@
     <pagination v-show="pageData.totalPages>0" :total="pageData.totalPages" :page.sync="pageData.page" :limit.sync="pageData.limit" @pagination="fetchData" />
 
     <!-- 分类添加 -->
-    <el-dialog title="新增" :visible.sync="dialogVisible" width="30%" :append-to-body='true'
+    <el-dialog title="修改/新增" :visible.sync="dialogVisible" width="30%" :append-to-body='true'
                :before-close="handleClose">
         <span>
             <el-input placeholder="请输入名称" v-model="form.name">
@@ -76,16 +76,11 @@
       return {
         list: null,
         listLoading: true,
-        listQuery: {
-          page: 1,
-          limit: 20
-        },
         pageData: {
           limit: 20,
           page:1,
           totalPages: 1,
         },
-        total: 0,
         query: {},
         form: {},
         dialogVisible: false,

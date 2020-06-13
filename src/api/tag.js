@@ -1,10 +1,15 @@
 import request from '@/utils/request'
 
-export function getList(data, query) {
+export function getTagList(pageDate, query) {
+  let added = ``
+  if (query !== undefined) {
+    query.forEach(function (item){
+      added += `&${item.key}=${item.value}`;
+    })
+  }
   return request({
-    url: `/api/article/tag?page=${query.page}&limit=${query.limit}`,
-    method: 'post',
-    data
+    url: `/api/article/tag/list?page=${pageDate.page}&limit=${pageDate.limit}${added}`,
+    method: 'get',
   })
 }
 
