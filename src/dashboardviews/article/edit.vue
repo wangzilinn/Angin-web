@@ -14,6 +14,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="文章标签" style="display: inline-block">
+          <!--这里直接把tag存进去了-->
           <el-select multiple v-model="form.tagNames" placeholder="请选择文章标签" style="width: 500px">
             <el-option v-for="item in tagList" :label="item.name" :key="item.id" :value="item.name"></el-option>
           </el-select>
@@ -37,7 +38,8 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="draftSubmit">存入草稿</el-button>
-          <el-button type="primary" @click="releaseSubmit">发表文章</el-button>
+          <el-button v-if="this.mode === `edit`" type="primary" @click="updateSubmit">更新文章</el-button>
+          <el-button v-if="this.mode === `new`" type="primary" @click="releaseSubmit">发表文章</el-button>
           <el-button type="warning" @click="resetSubmit">清空</el-button>
         </el-form-item>
       </el-form>
@@ -47,7 +49,7 @@
 
 <script>
   import {mapGetters} from 'vuex'
-  import {add, findById} from '@/api/article'
+  import {update, add, findById} from '@/api/article'
   import {getAllCategory} from '@/api/category'
   import {getAllTag} from "@/api/tag";
   import MarkdownEditor from './components/markdown'
@@ -68,6 +70,7 @@
         mode = 'edit'
       }
       return {
+        //指示该页面是新建模式还是编辑模式
         mode: mode,
         form: {},
         tokenHeader: {},
@@ -136,16 +139,6 @@
       },
       //提交草稿
       draftSubmit() {
-        //if (this.articleTags != null || this.articleTags.length > 0) {
-        //  let tags = []
-        //  this.articleTags.forEach(t => {
-        //    tags.push({id: t})
-        //  })
-        //  this.form.tagNames = tags
-        //} else {
-        //  this.form.tagNames = null
-        //}
-
         this.form.state = 'release'
         add(this.form).then(res => {
           console.log(res)
@@ -156,15 +149,16 @@
       },
       //提交正式版
       releaseSubmit() {
-        //装入标签, form是最终提交的表单
-        //if (this.articleTags != null || this.articleTags.length > 0) {
-        //  this.form.tagNames = this.articleTags
-        //} else {
-        //  this.form.tagNames = null
-        //}
         this.form.author = userInfo.name
         this.form.state = 'release'
         add(this.form).then(res => {
+          console.log(res)
+          this.$message.success(res.msg)
+          this.$router.replace('/admin/article/list')
+        })
+      },
+      updateSubmit(){
+        update(this.form).then(res => {
           console.log(res)
           this.$message.success(res.msg)
           this.$router.replace('/admin/article/list')
