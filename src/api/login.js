@@ -1,24 +1,18 @@
 import request from '@/utils/request'
 
-export function login(form) {
+export function login(simpleLoginInfo) {
   return request({
     url: '/api/user/signIn',
     method: 'post',
-    params: {
-      username: form.username,
-      password: form.password
-    }
+    data:simpleLoginInfo
   })
 }
 
-export function signUp(form) {
+export function signUp(simpleLoginInfo) {
   return request({
     url: '/api/user/signUp',
     method: 'post',
-    params: {
-      username: form.username,
-      password: form.password
-    }
+    simpleLoginInfo
   })
 }
 

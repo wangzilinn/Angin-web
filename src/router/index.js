@@ -121,12 +121,6 @@ export const constantRoutes = [
         meta: {title: '标签管理', icon: 'tags'}
       },
       {
-        path: 'link',
-        component: () => import('@/dashboardviews/link/index'),
-        name: '友链管理',
-        meta: {title: '友链管理', icon: 'guide'}
-      },
-      {
         path: 'comment',
         component: () => import('@/dashboardviews/comment/index'),
         name: '评论管理',

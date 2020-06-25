@@ -18,49 +18,24 @@
       highlight-current-row>
       <el-table-column align="center" label="ID" width="95">
         <template slot-scope="scope">
-          {{ scope.row.id }}
+          <!--递增序号-->
+          {{(pageData.page - 1) * pageData.limit + scope.$index + 1}}
+        </template>
+      </el-table-column>
+      <el-table-column label="留言文章" width="100">
+        <template slot-scope="scope">
+          {{ scope.row.articleTitle }}
         </template>
       </el-table-column>
       <el-table-column label="留言人" width="100">
         <template slot-scope="scope">
-          {{ scope.row.name }}
+          <span v-if="scope.row.username">{{scope.row.username}}</span>
+          <span v-else>匿名:{{ scope.row.avatar }}</span>
         </template>
       </el-table-column>
       <el-table-column label="留言内容">
         <template slot-scope="scope">
           {{ scope.row.content }}
-        </template>
-      </el-table-column>
-      <el-table-column label="邮箱" width="130">
-        <template slot-scope="scope">
-          {{ scope.row.email }}
-        </template>
-      </el-table-column>
-      <el-table-column label="网址" width="150">
-        <template slot-scope="scope">
-          <a :href="scope.row.url" target="_blank" style="color: #409EFF">{{scope.row.url}}</a>
-        </template>
-      </el-table-column>
-      <el-table-column label="IP" width="120">
-        <template slot-scope="scope">
-          {{ scope.row.ip }}
-        </template>
-      </el-table-column>
-      <el-table-column label="登录设备" width="150">
-        <template slot-scope="scope">
-          {{ scope.row.device }}
-        </template>
-      </el-table-column>
-      <el-table-column label="地址" width="180">
-        <template slot-scope="scope">
-          {{ scope.row.address }}
-        </template>
-      </el-table-column>
-      <el-table-column label="所属板块" width="100">
-        <template slot-scope="scope">
-          <el-tag v-if="scope.row.sort == '0'" effect="dark">Article</el-tag>
-          <el-tag v-if="scope.row.sort == '1'" effect="dark">Link</el-tag>
-          <el-tag v-if="scope.row.sort == '2'" effect="dark">About</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" width="130" class-name="small-padding fixed-width">
@@ -72,7 +47,7 @@
       </el-table-column>
     </el-table>
 
-    <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="fetchData" />
+    <pagination v-show="pageData.totalPages>0" :total="pageData.totalPages" :page.sync="pageData.page" :limit.sync="pageData.limit" @pagination="fetchData" />
 
   </div>
 </template>
@@ -87,11 +62,11 @@
       return {
         list: null,
         listLoading: true,
-        listQuery: {
-          page: 1,
-          limit: 20
+        pageData: {
+          limit: 20,
+          page:1,
+          totalPages: 1,
         },
-        total: 0,
         query: {},
       }
     },
@@ -101,10 +76,13 @@
     methods: {
       fetchData() {
         this.listLoading = true
-        getCommentList(this.query, this.listQuery).then(response => {
-          this.list = response.data.rows
+        getCommentList(this.pageData).then(response => {
+          this.list = response.data.elements
           this.listLoading = false
-          this.total = response.data.total
+          this.pageData.totalPages = response.data.totalPages
+          this.pageData.page = response.data.currentPage
+          console.log( this.list)
+          console.log(`第${this.pageData.page}页/共${this.pageData.totalPages}页`)
         })
       },
 
