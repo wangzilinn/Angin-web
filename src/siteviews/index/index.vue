@@ -3,7 +3,7 @@
     <div class="post-lists">
       <div class="post-lists-body">
         <div class="post-list-item" v-if="articleList == null || articleList.length === 0">
-          <p>还有没有发表文章呢！</p>
+          <p>别急，服务器正在努力传输</p>
         </div>
         <div class="post-list-item" v-else v-for="item in articleList">
           <div class="post-list-item-container">
@@ -20,7 +20,8 @@
                 <router-link :to="'/article/' + item.id" v-text="item.title"></router-link>
               </div>
               <div class="item-meta clearfix">
-                <div class="item-meta-ico bg-ico-book" style="background: url(/bg-ico.png) no-repeat;background-size: 40px auto;"></div>
+                <div class="item-meta-ico bg-ico-book"
+                     style="background: url(/bg-ico.png) no-repeat;background-size: 40px auto;"></div>
                 <div class="item-meta-cat"><a href="https://www.linpx.com/c/tutorials/">{{item.category}}</a></div>
               </div>
             </div>
@@ -47,6 +48,7 @@
 <script>
   import {getArticleList} from '@/api/article'
   import {mapGetters} from "vuex";
+
   export default {
     name: "index",
     computed: {
@@ -74,15 +76,18 @@
         if (page === undefined) {
           page = 1
         }
-        getArticleList( {page: page, limit: 8}).then(res => {
+        getArticleList({page: page, limit: 8}).then(res => {
           this.articleList = res.data.elements
           this.current = res.data.currentPage
           this.pages = res.data.totalPages
           this.total = res.data.totalNumber
         })
       },
-      getCoverUrl(imgId){
-        return this.imgApi + "/" + imgId
+      getCoverUrl(imgId) {
+        if (imgId === '' || imgId === undefined) {
+          return this.imgApi + "?sign=" + Math.random()  //获取随机图片
+        }
+        return this.imgApi + "/" + imgId;
       }
     }
   }
