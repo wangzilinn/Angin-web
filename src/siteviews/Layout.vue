@@ -60,18 +60,22 @@
             </div>
           </div>
           <!--这里显示最近的项目:tag是project的-->
+          <!--<div class="meta-item meta-posts">-->
+          <!--  <h3 class="meta-title">RECENT PROJECTS</h3>-->
+          <!--  <li v-if="recentProjectList != null" v-for="item in recentProjectList">-->
+          <!--    <router-link :to="'/article/' + item.id">{{item.title}}</router-link>-->
+          <!--  </li>-->
+          <!--</div>-->
+          <!--&lt;!&ndash;这里显示最近的评论&ndash;&gt;-->
+          <!--<div class="meta-item meta-comments">-->
+          <!--  <h3 class="meta-title">RECENT ARTICLE COMMENTS</h3>-->
+          <!--  <li v-if="recentArticleCommentList != null" v-for="item in recentArticleCommentList">-->
+          <!--    <router-link :to="'/article/' + item.articleId">{{item.articleTitle}} : {{item.content}}</router-link>-->
+          <!--  </li>-->
+          <!--</div>-->
           <div class="meta-item meta-posts">
-            <h3 class="meta-title">RECENT PROJECTS</h3>
-            <li v-if="recentProjectList != null" v-for="item in recentProjectList">
-              <router-link :to="'/article/' + item.id">{{item.title}}</router-link>
-            </li>
-          </div>
-          <!--这里显示最近的评论-->
-          <div class="meta-item meta-comments">
-            <h3 class="meta-title">RECENT ARTICLE COMMENTS</h3>
-            <li v-if="recentArticleCommentList != null" v-for="item in recentArticleCommentList">
-              <router-link :to="'/article/' + item.articleId">{{item.articleTitle}} : {{item.content}}</router-link>
-            </li>
+            <!--<h3 class="meta-title">RECENT PROJECTS</h3>-->
+            <canvas id="mycanvas" width="30" height="40"/>
           </div>
         </div>
       </div>
@@ -96,8 +100,10 @@
 <script>
   import {getArticleList} from "@/api/article";
   import {getCommentList} from "@/api/comment";
+  import { drawContributions } from "github-contributions-canvas";
   import {mapGetters} from "vuex";
   import GithubCorner from "@/components/GithubCorner/index";
+  import axios from 'axios'
 
   export default {
     name: "Layout",
@@ -109,8 +115,8 @@
     data() {
       return {
         recentProjectList: null,
-        recentArticleCommentList: null
-
+        recentArticleCommentList: null,
+        contributionData:null
       }
     },
     created() {
@@ -129,6 +135,20 @@
         getCommentList({page:1, limit:5}).then(res => {
           this.recentArticleCommentList = res.data.elements
         })
+        axios
+          .get('https://127.0.0.1:8443/api/user/github')
+          .then(response => {
+            this.contributionData = response.data
+            console.log(this.contributionData)
+            drawContributions(document.getElementById("mycanvas"), {
+              data: this.contributionData,
+              username: "wangzilinn",
+              themeName: "standard",
+              footerText: "Made by @sallar - github-contributions.now.sh"
+            });
+            }
+          )
+
       },
       init() {
         let r = document.getElementById('chakhsu')

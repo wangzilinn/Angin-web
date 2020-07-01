@@ -34,6 +34,11 @@ export function getCommentList(pageData, query) {
     method: 'get',
   })
 }
+//export function getContributionData() {
+//  return request({
+//    url:
+//  })
+//}
 
 export function getListForAbout(page) {
   return request({

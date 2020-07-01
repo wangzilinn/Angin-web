@@ -76,7 +76,7 @@
         if (page === undefined) {
           page = 1
         }
-        getArticleList({page: page, limit: 8}).then(res => {
+        getArticleList({page: page, limit: 9}).then(res => {
           this.articleList = res.data.elements
           this.current = res.data.currentPage
           this.pages = res.data.totalPages
