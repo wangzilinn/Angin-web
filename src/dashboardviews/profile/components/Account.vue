@@ -19,7 +19,7 @@
 </template>
 
 <script>
-  import { getInfo, update } from '@/api/login'
+  import { getInfo, update } from '@/api/user'
   export default {
     data() {
       return {
@@ -56,7 +56,7 @@
             update(this.form).then(res => {
               if (res.code == 200) {
                 this.$store.dispatch('user/logout')
-                this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+                this.$router.push(`/user?redirect=${this.$route.fullPath}`)
               } else {
                 this.$message.error(res.msg)
               }

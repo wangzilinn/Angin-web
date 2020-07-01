@@ -67,7 +67,7 @@
 </template>
 
 <script>
-  import {deleteArticle, addCategory, updateCategory, getCategoryList} from '@/api/category'
+  import {deleteArticle, addCategory, updateCategory, getCategoriesList} from '@/api/category'
   import Pagination from '@/components/Pagination/index'
 
   export default {
@@ -92,7 +92,7 @@
     methods: {
       fetchData() {
         this.listLoading = true
-        getCategoryList(this.pageData).then(response => {
+        getCategoriesList(this.pageData).then(response => {
           this.list = response.data.elements
           this.listLoading = false
           this.pageData.totalPages = response.data.totalPages

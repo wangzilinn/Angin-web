@@ -5,6 +5,14 @@
         <a href="/" class="navbar-logo">
           <img src="@/assets/layout/logo.png" alt="Het meisje met de parel">
         </a>
+        <el-select v-model="value" filterable placeholder="全部分类">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
         <div class="navbar-menu">
           <a href="/login" v-if="name">{{name}}</a>
           <a href="/logout" v-if="name">Logout</a>
@@ -19,7 +27,6 @@
             <a href="/login" v-else>Login</a>
             <a href="/about">About</a>
           </ul>
-
         </div>
       </div>
     </header>
@@ -59,23 +66,8 @@
               </div>
             </div>
           </div>
-          <!--这里显示最近的项目:tag是project的-->
-          <!--<div class="meta-item meta-posts">-->
-          <!--  <h3 class="meta-title">RECENT PROJECTS</h3>-->
-          <!--  <li v-if="recentProjectList != null" v-for="item in recentProjectList">-->
-          <!--    <router-link :to="'/article/' + item.id">{{item.title}}</router-link>-->
-          <!--  </li>-->
-          <!--</div>-->
-          <!--&lt;!&ndash;这里显示最近的评论&ndash;&gt;-->
-          <!--<div class="meta-item meta-comments">-->
-          <!--  <h3 class="meta-title">RECENT ARTICLE COMMENTS</h3>-->
-          <!--  <li v-if="recentArticleCommentList != null" v-for="item in recentArticleCommentList">-->
-          <!--    <router-link :to="'/article/' + item.articleId">{{item.articleTitle}} : {{item.content}}</router-link>-->
-          <!--  </li>-->
-          <!--</div>-->
           <div class="meta-item meta-posts">
-            <!--<h3 class="meta-title">RECENT PROJECTS</h3>-->
-            <canvas id="mycanvas" width="30" height="40"/>
+            <canvas id="github-contribution-map"/>
           </div>
         </div>
       </div>
@@ -104,6 +96,8 @@
   import {mapGetters} from "vuex";
   import GithubCorner from "@/components/GithubCorner/index";
   import axios from 'axios'
+  import {getGithubInfo} from "@/api/user";
+  import {getCategoriesList} from "@/api/category";
 
   export default {
     name: "Layout",
@@ -114,8 +108,7 @@
     },
     data() {
       return {
-        recentProjectList: null,
-        recentArticleCommentList: null,
+        categoriesList:null,
         contributionData:null
       }
     },
@@ -128,26 +121,18 @@
     methods: {
       //创建页面时调用
       fetchData() {
-        //查找最近项目(打了project标签的)
-        getArticleList({page:1, limit:5},[{key:`tag`, value:`project`}]).then(res => {
-          this.recentProjectList = res.data.elements
+        getCategoriesList().then(res => {
+          this.categoriesList = res.data
         })
-        getCommentList({page:1, limit:5}).then(res => {
-          this.recentArticleCommentList = res.data.elements
+        getGithubInfo('wangzilinn').then(res=>{
+          this.contributionData = res.data
+          drawContributions(document.getElementById("github-contribution-map"), {
+            data: this.contributionData,
+            username: "wangzilinn",
+            themeName: "standard",
+            footerText: "Made by @sallar - github-contributions.now.sh"
+          });
         })
-        axios
-          .get('https://127.0.0.1:8443/api/user/github')
-          .then(response => {
-            this.contributionData = response.data
-            console.log(this.contributionData)
-            drawContributions(document.getElementById("mycanvas"), {
-              data: this.contributionData,
-              username: "wangzilinn",
-              themeName: "standard",
-              footerText: "Made by @sallar - github-contributions.now.sh"
-            });
-            }
-          )
 
       },
       init() {

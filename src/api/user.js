@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-export function login(simpleLoginInfo) {
+export function user(simpleLoginInfo) {
   return request({
     url: '/api/user/signIn',
     method: 'post',
@@ -35,5 +35,12 @@ export function update(data) {
     url: '/api/user',
     method: 'put',
     data
+  })
+}
+
+export function getGithubInfo(username) {
+  return request({
+    url:"/api/user/github/" + username,
+    method: 'get'
   })
 }

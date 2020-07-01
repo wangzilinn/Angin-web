@@ -8,7 +8,7 @@ import getPageTitle from '@/utils/get-page-title'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 //以下这些界面不需要登录
-const whiteList = ['/login', '/', '/page/*', '/about', '/archives', '/links'] // no redirect whitelist
+const whiteList = ['/user', '/', '/page/*', '/about', '/archives', '/links'] // no redirect whitelist
 
 router.beforeEach(async(to, from, next) => {
   // start progress bar
@@ -21,7 +21,7 @@ router.beforeEach(async(to, from, next) => {
   const hasToken = getToken()
 
   if (hasToken) {
-    if (to.path === '/login') {
+    if (to.path === '/user') {
       // if is logged in, redirect to the home page
       next({ path: '/' })
       NProgress.done()
@@ -35,7 +35,7 @@ router.beforeEach(async(to, from, next) => {
           await store.dispatch('user/getInfo')
           next()
         } catch (error) {
-          // remove token and go to login page to re-login
+          // remove token and go to user page to re-user
           await store.dispatch('user/resetToken')
           Message.error(error + "error" || 'Has Error')
           next(`/login?redirect=${to.path}`)
@@ -46,7 +46,7 @@ router.beforeEach(async(to, from, next) => {
   } else {
     /* has no token*/
     if (whiteList.indexOf(to.path) !== -1 || to.path.startsWith('/page') || to.path.startsWith('/article')) {
-      // in the free login whitelist, go directly
+      // in the free user whitelist, go directly
       next()
     } else {
       MessageBox.confirm('你的登录状态已失效，你可以选择重新登录或留在此页面，是否继续?', '提示', {

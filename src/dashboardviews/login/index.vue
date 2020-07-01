@@ -45,7 +45,7 @@
   import normal from '@/assets/login/stand.png'
   import blindfold from '@/assets/login/close_eyes.png'
   import greeting from '@/assets/login/hello.png'
-  import {signUp} from "@/api/login";
+  import {signUp} from "@/api/user";
 
   export default {
     name: 'Login',
