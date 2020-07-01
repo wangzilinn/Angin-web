@@ -9,7 +9,7 @@
       <div id="post-content" class="post-content">
         <h3>Hello</h3>
         <p>我是王子林, 四川大学计算机学院研究生</p>
-        <p>喜欢古典音乐,喜欢猫咪,<strong>超级喜欢自己的女朋友</strong></p>
+        <p>喜欢古典音乐,喜欢猫咪,<strong>超级喜欢自己的女朋友,我们在一起已经{{togetherDays}}天啦!</strong></p>
         <p>本科阶段一直在嵌入式的坑里面挣扎, 忙于各种比赛, 研究生阶段转向了向上层应用, 发现又是一个大坑</p>
         <p>目前我的研究方向是NILM, 期望能发好的论文出来</p>
         <p>还在涉猎一个小方向, 嵌入式神经网络, 感觉可以做出很有意思的应用</p>
@@ -22,8 +22,10 @@
           <li>spring security</li>
           <li>spring cloud</li>
           <li>mybatis plus</li>
+          <li>Feign</li>
           <li>MySQL</li>
           <li>MongoDB</li>
+          <li>jsr303校验</li>
         </ul>
         <h3>联系</h3>
         <p>以下是我的github, 虽然技术很菜, 但是也做了一些我觉得很有意思的东西</p>
@@ -37,14 +39,19 @@
         <span class="response">Responses</span>
         <form id="comment-form" class="comment-form" role="form">
           <input v-model="form.sort = 2" style="display: none;">
-          <input type="text" v-model="form.name" maxlength="12" class="form-control input-control clearfix" placeholder="Name (*)" value="" required="">
-          <input type="email" v-model="form.email" class="form-control input-control clearfix" placeholder="Email (*)" value="" required="">
-          <input type="url" v-model="form.url" class="form-control input-control clearfix" placeholder="Site (http://)" value="">
-          <textarea v-model="form.content" class="form-control" placeholder="Your comment here. Be cool. " required=""></textarea>
+          <input type="text" v-model="form.name" maxlength="12" class="form-control input-control clearfix"
+                 placeholder="Name (*)" value="" required="">
+          <input type="email" v-model="form.email" class="form-control input-control clearfix" placeholder="Email (*)"
+                 value="" required="">
+          <input type="url" v-model="form.url" class="form-control input-control clearfix" placeholder="Site (http://)"
+                 value="">
+          <textarea v-model="form.content" class="form-control" placeholder="Your comment here. Be cool. "
+                    required=""></textarea>
           <button type="button" class="submit" @click="submit">SUBMIT</button>
         </form>
         <ol v-if="data.rows != null && data.rows.length > 0" class="comment-list">
-          <li v-for="parent in data.rows" :id="'li-comment-' + parent.id" class="comment-body comment-parent comment-even">
+          <li v-for="parent in data.rows" :id="'li-comment-' + parent.id"
+              class="comment-body comment-parent comment-even">
             <div :id="'comment-' + parent.id">
               <div class="comment-view" onclick="">
                 <div class="comment-header">
@@ -69,7 +76,8 @@
             </div>
             <div v-if="parent.children != null && parent.children.length > 0" class="comment-children">
               <ol class="comment-list">
-                <li v-for="child in parent.children" :id="'li-comment-' + child.id" class="comment-body comment-child comment-level-odd comment-odd">
+                <li v-for="child in parent.children" :id="'li-comment-' + child.id"
+                    class="comment-body comment-child comment-level-odd comment-odd">
                   <div :id="'comment-' + child.id">
                     <div class="comment-view" onclick="">
                       <div class="comment-header">
@@ -118,17 +126,20 @@
 
 <script>
   import {getListForAbout, addComment} from "@/api/comment";
+
   export default {
     name: "index",
     data() {
       return {
         data: {},
         form: {},
-        current: 1
+        current: 1,
+        togetherDays: NaN,
       }
     },
     created() {
       this.fetchData(1)
+      this.countThDaysTogether()
     },
     methods: {
       fetchData(current) {
@@ -136,7 +147,12 @@
           this.data = res.data
         })
       },
-
+      countThDaysTogether() {
+        let start = new Date('2019/5/1 09:36:0')  //开始时间
+        let now = new Date()    //结束时间
+        let diff = now.getTime() - start.getTime()//时间差秒
+        this.togetherDays = Math.floor(diff / (24 * 3600 * 1000))
+      },
       submit() {
         if (this.form.name == null || this.form.name == '') {
           this.$message.warning('请填写昵称')

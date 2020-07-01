@@ -20,7 +20,7 @@
                 <router-link :to="'/article/' + item.id" v-text="item.title"></router-link>
               </div>
               <div class="item-meta clearfix">
-                <div class="item-meta-ico bg-ico-book"
+                <div class="item-meta-ico bg-ico-code"
                      style="background: url(/bg-ico.png) no-repeat;background-size: 40px auto;"></div>
                 <div class="item-meta-cat"><a href="https://www.linpx.com/c/tutorials/">{{item.category}}</a></div>
               </div>

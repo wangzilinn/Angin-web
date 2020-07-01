@@ -5,14 +5,19 @@
         <a href="/" class="navbar-logo">
           <img src="@/assets/layout/logo.png" alt="Het meisje met de parel">
         </a>
-        <el-select v-model="value" filterable placeholder="全部分类">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
+        <!--TODO:点击之后再请求-->
+        <!-- @change="handleEnter" :回车时回调-->
+        <el-autocomplete
+          class="inline-input"
+          suffix-icon="el-icon-search"
+          v-model="state1"
+          :fetch-suggestions="querySearch"
+          placeholder="选择文章分类或标题搜索"
+          @select="handleSelect"
+          @change="handleEnter"
+          size="small"
+        ></el-autocomplete>
+        <!--<div class="item-meta-ico bg-ico-book"/>-->
         <div class="navbar-menu">
           <a href="/login" v-if="name">{{name}}</a>
           <a href="/logout" v-if="name">Logout</a>
@@ -57,9 +62,7 @@
                   style="color: rgb(255, 94, 99);">U</span><span
                   style="color: rgb(191, 60, 175);">+</span><span style="color: rgb(226, 183, 47);">`</span>
                 </p>
-                <p>Theme is <a href="https://github.com/chakhsu/pinghsu" target="_blank">Pinghsu</a> by <a
-                  href="https://www.linpx.com/" target="_blank">Chakhsu</a></p>
-                <p>Powered by <a href="http://www.typecho.org" target="_blank" rel="nofollow">Typecho</a></p>
+                <p>Theme is inspired by <a href="https://github.com/chakhsu/pinghsu" target="_blank">Pinghsu</a></p>
                 <p>© 2020 <a href="https://zilinn.wang/">Wang zilin</a></p>
                 <p><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=20012505">蜀ICP备20012505号-1</a>
                 </p>
@@ -84,7 +87,7 @@
     top: 35%;
   }
 
-  .info-logo img{
+  .info-logo img {
     height: 50px;
   }
 
@@ -92,7 +95,7 @@
 <script>
   import {getArticleList} from "@/api/article";
   import {getCommentList} from "@/api/comment";
-  import { drawContributions } from "github-contributions-canvas";
+  import {drawContributions} from "github-contributions-canvas";
   import {mapGetters} from "vuex";
   import GithubCorner from "@/components/GithubCorner/index";
   import axios from 'axios'
@@ -108,8 +111,9 @@
     },
     data() {
       return {
-        categoriesList:null,
-        contributionData:null
+        categoriesList: null,
+        contributionData: null,
+        showSearch: false
       }
     },
     created() {
@@ -124,7 +128,7 @@
         getCategoriesList().then(res => {
           this.categoriesList = res.data
         })
-        getGithubInfo('wangzilinn').then(res=>{
+        getGithubInfo('wangzilinn').then(res => {
           this.contributionData = res.data
           drawContributions(document.getElementById("github-contribution-map"), {
             data: this.contributionData,
@@ -133,6 +137,15 @@
             footerText: "Made by @sallar - github-contributions.now.sh"
           });
         })
+
+      },
+      clickSearchButton() {
+        if (this.showSearch) {
+          this.showSearch = false;
+        } else {
+          this.showSearch = true;
+          this.$refs.searchInputRef.focus();
+        }
 
       },
       init() {
