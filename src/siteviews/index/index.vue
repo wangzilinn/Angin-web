@@ -2,16 +2,16 @@
   <div class="index-page main-content">
     <div class="post-lists">
       <el-row type="flex" justify="center">
-        <el-badge :value="200" :max="99" class="item" type="warning">
+        <el-badge :value="200" :max="99" class="item">
           <el-tag closable >Spring</el-tag>
         </el-badge>
-        <el-badge :value="200" :max="99" class="item" type="warning">
+        <el-badge :value="200" :max="99" class="item">
           <el-tag closable >教程</el-tag>
         </el-badge>
-        <el-badge :value="200" :max="99" class="item" type="warning">
+        <el-badge :value="200" :max="99" class="item">
           <el-tag closable >MISC</el-tag>
         </el-badge>
-        <el-badge :value="2" :max="99" class="item" type="warning">
+        <el-badge :value="2" :max="99" class="item">
           <el-tag closable >测试</el-tag>
         </el-badge>
         <el-autocomplete
@@ -130,15 +130,24 @@
 
   .inline-input {
     width: 70px;
-    /*margin-left: 10px;*/
     vertical-align: bottom;
     margin-top: 10px;
-    /*margin-right: 25px;*/
   }
 
   .item {
     margin-top: 10px;
     margin-right: 25px;
+    color: #01A0E2;
+    border: #01A0E2;
+    background-color: white;
   }
+  .el-tag {
+    background-color: white;
+    color: #956038;
+    border-color: #956038;
+  }
+
+
+
 </style>
 

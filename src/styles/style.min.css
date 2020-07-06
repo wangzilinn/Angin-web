@@ -2443,3 +2443,14 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
   border-radius: .2rem;
   margin-left: 16px
 }
+
+.el-tag .el-icon-close{
+  color:#956038 ;
+}
+
+.el-badge__content{
+  background-color: #ffffff;
+  color: #01A0E2;
+  border-color: #01A0E2;
+
+}
