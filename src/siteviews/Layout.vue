@@ -87,11 +87,11 @@
 
 <style scoped>
   .navbar-logo img {
-    height: 40px;
+    height: 50px;
   }
 
   .navbar-logo {
-    top: 35%;
+    top: 40%;
   }
 
   .info-logo img {

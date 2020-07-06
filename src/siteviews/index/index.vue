@@ -133,12 +133,12 @@
     /*margin-left: 10px;*/
     vertical-align: bottom;
     margin-top: 10px;
-    margin-right: 40px;
+    /*margin-right: 25px;*/
   }
 
   .item {
     margin-top: 10px;
-    margin-right: 30px;
+    margin-right: 25px;
   }
 </style>
 

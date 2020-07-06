@@ -487,7 +487,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
   position: relative;
   width: 1040px;
   max-width: 100%;
-  height: 70px;
+  height: 60px;
   margin: 0 auto
 }
 
@@ -696,9 +696,9 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
   animation: fade-in;
   animation-duration: .5s
 }
-
+/*标签到页眉距离*/
 .index-page {
-  padding: 90px 20px 0
+  padding: 80px 20px 0
 }
 
 .index-page .post-list-item-container .item-label {
