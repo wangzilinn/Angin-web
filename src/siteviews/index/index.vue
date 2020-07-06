@@ -1,6 +1,30 @@
 <template>
   <div class="index-page main-content">
     <div class="post-lists">
+      <el-row type="flex" justify="center">
+        <el-badge :value="200" :max="99" class="item" type="warning">
+          <el-tag closable >Spring</el-tag>
+        </el-badge>
+        <el-badge :value="200" :max="99" class="item" type="warning">
+          <el-tag closable >教程</el-tag>
+        </el-badge>
+        <el-badge :value="200" :max="99" class="item" type="warning">
+          <el-tag closable >MISC</el-tag>
+        </el-badge>
+        <el-badge :value="2" :max="99" class="item" type="warning">
+          <el-tag closable >测试</el-tag>
+        </el-badge>
+        <el-autocomplete
+          class="inline-input"
+          suffix-icon="el-icon-plus"
+          v-model="state1"
+          :fetch-suggestions="querySearch"
+          placeholder="Add"
+          @select="handleSelect"
+          @change="handleEnter"
+          size="small"
+        ></el-autocomplete>
+      </el-row>
       <div class="post-lists-body">
         <div class="post-list-item" v-if="articleList == null || articleList.length === 0">
           <p>别急，服务器正在努力传输</p>
@@ -94,5 +118,27 @@
 </script>
 <style lang="scss" scoped>
   @import "~@/styles/style.min.css";
+  .el-row {
+    border-radius: 4px;
+  }
+
+  /*.el-row .el-tag {*/
+  /*  !*padding: 5px;*!*/
+  /*  margin-right: 5px;*/
+  /*  margin-left: 5px;*/
+  /*}*/
+
+  .inline-input {
+    width: 70px;
+    /*margin-left: 10px;*/
+    vertical-align: bottom;
+    margin-top: 10px;
+    margin-right: 40px;
+  }
+
+  .item {
+    margin-top: 10px;
+    margin-right: 30px;
+  }
 </style>
 

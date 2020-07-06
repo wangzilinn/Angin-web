@@ -34,9 +34,16 @@
           </ul>
         </div>
       </div>
+
     </header>
 
-    <router-view/>
+
+      <router-view/>
+
+    <!--<el-aside>-->
+
+    <!--</el-aside>-->
+
 
     <footer id="footer" class="footer bg-white">
       <div class="footer-social">
