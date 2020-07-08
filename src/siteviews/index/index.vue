@@ -2,17 +2,17 @@
   <div class="index-page main-content">
     <div class="post-lists">
       <el-row type="flex" justify="center">
-        <el-badge :value="200" :max="99" class="item">
-          <el-tag closable >Spring</el-tag>
+        <el-badge :value="200" :max="99" size="small" class="item">
+          <el-tag size="small" >Spring</el-tag>
         </el-badge>
         <el-badge :value="200" :max="99" class="item">
-          <el-tag closable >教程</el-tag>
+          <el-tag size="small" >教程</el-tag>
         </el-badge>
         <el-badge :value="200" :max="99" class="item">
-          <el-tag closable >MISC</el-tag>
+          <el-tag size="small" >MISC</el-tag>
         </el-badge>
         <el-badge :value="2" :max="99" class="item">
-          <el-tag closable >测试</el-tag>
+          <el-tag size="small" >测试</el-tag>
         </el-badge>
         <el-autocomplete
           class="inline-input"
@@ -22,7 +22,7 @@
           placeholder="Add"
           @select="handleSelect"
           @change="handleEnter"
-          size="small"
+          size="mini"
         ></el-autocomplete>
       </el-row>
       <div class="post-lists-body">
