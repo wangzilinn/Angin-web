@@ -91,7 +91,7 @@
 
 </style>
 <script>
-  import {getArticleList} from "@/api/article";
+  import {getArticlePage} from "@/api/article";
   import {getCommentList} from "@/api/comment";
   import {drawContributions} from "github-contributions-canvas";
   import {mapGetters} from "vuex";

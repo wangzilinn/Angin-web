@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-export function getTagList(pageDate, query) {
+export function getTagList(query) {
   let added = ``
   if (query !== undefined) {
     query.forEach(function (item){
@@ -8,7 +8,7 @@ export function getTagList(pageDate, query) {
     })
   }
   return request({
-    url: `/api/article/tag/list?page=${pageDate.page}&limit=${pageDate.limit}${added}`,
+    url: `/api/article/tag/list?${added}`,
     method: 'get',
   })
 }

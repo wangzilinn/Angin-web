@@ -3,19 +3,9 @@
     <div class="post-lists">
       <el-row type="flex" justify="center">
         <!--<div>Current category:{{refresh}}</div>-->
-        <el-tag size="medium">Spring</el-tag>
-        <el-tag size="medium">教程</el-tag>
-        <el-tag size="medium">MISC</el-tag>
-        <!--<el-autocomplete-->
-        <!--  class="inline-input"-->
-        <!--  suffix-icon="el-icon-plus"-->
-        <!--  v-model="state1"-->
-        <!--  :fetch-suggestions="querySearch"-->
-        <!--  placeholder="Add"-->
-        <!--  @select="handleSelect"-->
-        <!--  @change="handleEnter"-->
-        <!--  size="mini"-->
-        <!--&gt;</el-autocomplete>-->
+        <el-tag :key="tag.name" v-for="tag in tagList" size="medium">{{tag.name}}</el-tag>
+        <!--<el-tag size="medium">教程</el-tag>-->
+        <!--<el-tag size="medium">MISC</el-tag>-->
       </el-row>
       <div class="post-lists-body">
         <div class="post-list-item" v-if="articleList == null || articleList.length === 0">
@@ -36,10 +26,9 @@
                 <router-link :to="'/article/' + item.id" v-text="item.title"></router-link>
               </div>
               <div class="item-meta clearfix">
-                {{refresh}}
                 <div class="item-meta-ico bg-ico-code"
                      style="background: url(/bg-ico.png) no-repeat;background-size: 40px auto;"></div>
-                <div class="item-meta-cat"><a href="https://www.linpx.com/c/tutorials/">{{item.content}}</a></div>
+                <div class="item-meta-cat"><a href="https://www.linpx.com/c/tutorials/">{{refresh}}</a></div>
               </div>
             </div>
           </div>
@@ -63,7 +52,8 @@
 </template>
 
 <script>
-  import {getArticleList} from '@/api/article'
+  import {getArticlePage} from '@/api/article'
+  import {getTagList} from "@/api/tag";
   import {mapGetters} from "vuex";
 
   export default {
@@ -83,6 +73,7 @@
     data() {
       return {
         articleList: null,
+        tagList:null,
         current: 0,
         pages: 0,
         total: 0
@@ -106,12 +97,15 @@
         if (this.category !== 'All') {
           query.push({key:"category", value:this.category})
         }
-        getArticleList({page: page, limit: 9}, query).then(res => {
+        getArticlePage({page: page, limit: 9}, query).then(res => {
           this.articleList = res.data.elements
           this.current = res.data.currentPage
           this.pages = res.data.totalPages
           this.total = res.data.totalNumber
         });
+        getTagList(query).then(res=>{
+          this.tagList = res.data
+        })
       },
       getCoverUrl(imgId) {
         if (imgId === '' || imgId === undefined) {

@@ -106,7 +106,7 @@
 
 <script>
   import {getCommentList} from '@/api/comment'
-  import {getArticleList} from '@/api/article'
+  import {getArticlePage} from '@/api/article'
   import {mapGetters} from 'vuex'
   import GithubCorner from '@/components/GithubCorner/index'
   import PanThumb from '@/components/PanThumb/index'
@@ -144,7 +144,7 @@
     methods: {
       fetchData() {
         this.listLoading = true
-        getArticleList({page: 1, limit: 8}).then(res => {
+        getArticlePage({page: 1, limit: 8}).then(res => {
           this.articleList = res.data.elements
           this.currentArticlePage = res.data.currentPage
           this.articlePages = res.data.totalPages

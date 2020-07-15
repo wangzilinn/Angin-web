@@ -84,7 +84,7 @@
 </template>
 
 <script>
-  import { getArticleList, deleteArticle } from '@/api/article'
+  import { getArticlePage, deleteArticle } from '@/api/article'
   import { getAllCategories } from '@/api/category'
   import Pagination from '@/components/Pagination/index'
   import {getAllTags} from "@/api/tag";
@@ -117,7 +117,7 @@
     methods: {
       fetchData() {
         this.listLoading = true
-        getArticleList(this.pageData).then(response => {
+        getArticlePage(this.pageData).then(response => {
           this.list = response.data.elements
           this.listLoading = false
           this.pageData.totalPages = response.data.totalPages
