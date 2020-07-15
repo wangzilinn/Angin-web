@@ -2,18 +2,10 @@
   <div class="index-page main-content">
     <div class="post-lists">
       <el-row type="flex" justify="center">
-        <el-badge :value="200" :max="99" size="small" class="item">
-          <el-tag size="small" >Spring</el-tag>
-        </el-badge>
-        <el-badge :value="200" :max="99" class="item">
-          <el-tag size="small" >教程</el-tag>
-        </el-badge>
-        <el-badge :value="200" :max="99" class="item">
-          <el-tag size="small" >MISC</el-tag>
-        </el-badge>
-        <el-badge :value="2" :max="99" class="item">
-          <el-tag size="small" >测试</el-tag>
-        </el-badge>
+        <el-tag size="medium">Spring</el-tag>
+        <el-tag size="medium">教程</el-tag>
+        <el-tag size="medium">MISC</el-tag>
+        <el-tag size="medium">测试</el-tag>
         <el-autocomplete
           class="inline-input"
           suffix-icon="el-icon-plus"
@@ -118,15 +110,10 @@
 </script>
 <style lang="scss" scoped>
   @import "~@/styles/style.min.css";
+
   .el-row {
     border-radius: 4px;
   }
-
-  /*.el-row .el-tag {*/
-  /*  !*padding: 5px;*!*/
-  /*  margin-right: 5px;*/
-  /*  margin-left: 5px;*/
-  /*}*/
 
   .inline-input {
     width: 70px;
@@ -134,20 +121,13 @@
     margin-top: 10px;
   }
 
-  .item {
-    margin-top: 10px;
-    margin-right: 25px;
-    color: #01A0E2;
-    border: #01A0E2;
-    background-color: white;
-  }
   .el-tag {
     background-color: white;
     color: #956038;
     border-color: #956038;
+    margin-top: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
   }
-
-
-
 </style>
 

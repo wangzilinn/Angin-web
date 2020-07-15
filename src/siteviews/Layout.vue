@@ -10,11 +10,11 @@
         <el-autocomplete
           class="inline-input"
           suffix-icon="el-icon-search"
-          v-model="state1"
-          :fetch-suggestions="querySearch"
+          v-model="searchArticleModel"
+          :fetch-suggestions="this.findAllCategories"
           placeholder="选择文章分类或标题搜索"
-          @select="handleSelect"
-          @change="handleEnter"
+          @select="this.handleSelectCategory"
+          @change="this.handleSearchEnter"
           size="small"
         ></el-autocomplete>
         <!--<div class="item-meta-ico bg-ico-book"/>-->
@@ -34,17 +34,8 @@
           </ul>
         </div>
       </div>
-
     </header>
-
-
-      <router-view/>
-
-    <!--<el-aside>-->
-
-    <!--</el-aside>-->
-
-
+    <router-view/>
     <footer id="footer" class="footer bg-white">
       <div class="footer-social">
         <div class="footer-container clearfix">
@@ -120,7 +111,8 @@
       return {
         categoriesList: null,
         contributionData: null,
-        showSearch: false
+        showSearch: false,
+        searchArticleModel: ''
       }
     },
     created() {
@@ -146,14 +138,19 @@
         })
 
       },
-      clickSearchButton() {
-        if (this.showSearch) {
-          this.showSearch = false;
-        } else {
-          this.showSearch = true;
-          this.$refs.searchInputRef.focus();
-        }
-
+      findAllCategories(queryString, cb) {
+        const val = [
+          {"value": "java"},
+          {"value": "python"}
+        ];
+        console.log("query" + queryString)
+        cb(val)
+      },
+      handleSelectCategory(item) {
+        console.log("select" + item.value)
+      },
+      handleSearchEnter(item) {
+        console.log("enter" + item)
       },
       init() {
         let r = document.getElementById('chakhsu')
