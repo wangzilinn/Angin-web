@@ -109,7 +109,7 @@
     },
     data() {
       return {
-        categoriesList: null,
+        categoriesList: [],
         contributionData: null,
         showSearch: false,
         searchArticleModel: ''
@@ -125,7 +125,11 @@
       //创建页面时调用
       fetchData() {
         getCategoriesList().then(res => {
-          this.categoriesList = res.data
+          res.data.forEach((item) => {
+            //将过来的分类转换为搜索框能够接受的value属性
+            this.categoriesList.push({"value":item.name})
+          })
+          this.categoriesList.push({"value":'All'})
         })
         getGithubInfo('wangzilinn').then(res => {
           this.contributionData = res.data
@@ -136,21 +140,30 @@
             footerText: "Made by @sallar - github-contributions.now.sh"
           });
         })
-
       },
-      findAllCategories(queryString, cb) {
-        const val = [
-          {"value": "java"},
-          {"value": "python"}
-        ];
+      findAllCategories(queryString, callback) {
         console.log("query" + queryString)
-        cb(val)
+        const categories = this.categoriesList;
+        //const results = queryString ? categories.filter(this.createFilter(queryString)) : categories;
+        callback(categories)
+      },
+      createFilter(queryString) {
+        return (queryString) => {
+          return (category.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+        };
       },
       handleSelectCategory(item) {
         console.log("select" + item.value)
+        this.$store.dispatch('content/setCategory', item.value)
+      //  重新加载index界面
       },
       handleSearchEnter(item) {
-        console.log("enter" + item)
+        if (item === '') {
+          //当输入框为空时,不进行搜索
+          return
+        }
+        this.$store.dispatch('content/setQuery', item)
+        console.log("enter" + item);
       },
       init() {
         let r = document.getElementById('chakhsu')

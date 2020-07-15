@@ -2,20 +2,20 @@
   <div class="index-page main-content">
     <div class="post-lists">
       <el-row type="flex" justify="center">
+        <!--<div>Current category:{{refresh}}</div>-->
         <el-tag size="medium">Spring</el-tag>
         <el-tag size="medium">教程</el-tag>
         <el-tag size="medium">MISC</el-tag>
-        <el-tag size="medium">测试</el-tag>
-        <el-autocomplete
-          class="inline-input"
-          suffix-icon="el-icon-plus"
-          v-model="state1"
-          :fetch-suggestions="querySearch"
-          placeholder="Add"
-          @select="handleSelect"
-          @change="handleEnter"
-          size="mini"
-        ></el-autocomplete>
+        <!--<el-autocomplete-->
+        <!--  class="inline-input"-->
+        <!--  suffix-icon="el-icon-plus"-->
+        <!--  v-model="state1"-->
+        <!--  :fetch-suggestions="querySearch"-->
+        <!--  placeholder="Add"-->
+        <!--  @select="handleSelect"-->
+        <!--  @change="handleEnter"-->
+        <!--  size="mini"-->
+        <!--&gt;</el-autocomplete>-->
       </el-row>
       <div class="post-lists-body">
         <div class="post-list-item" v-if="articleList == null || articleList.length === 0">
@@ -36,9 +36,10 @@
                 <router-link :to="'/article/' + item.id" v-text="item.title"></router-link>
               </div>
               <div class="item-meta clearfix">
+                {{refresh}}
                 <div class="item-meta-ico bg-ico-code"
                      style="background: url(/bg-ico.png) no-repeat;background-size: 40px auto;"></div>
-                <div class="item-meta-cat"><a href="https://www.linpx.com/c/tutorials/">{{item.category}}</a></div>
+                <div class="item-meta-cat"><a href="https://www.linpx.com/c/tutorials/">{{item.content}}</a></div>
               </div>
             </div>
           </div>
@@ -68,9 +69,16 @@
   export default {
     name: "index",
     computed: {
+      //...是把imgApi混入当前对象
       ...mapGetters([
         'imgApi',
-      ])
+        'category'
+      ]),
+      refresh() {
+        console.log("re fetchData")
+        this.fetchData()
+        return this.category
+      }
     },
     data() {
       return {
@@ -84,7 +92,8 @@
       this.fetchData()
     },
     methods: {
-      fetchData() {
+      fetchData(tag) {
+        this.articleList = []
         let page = this.$route.params.page
         if (page !== undefined) {
           this.current = page
@@ -92,12 +101,17 @@
         if (page === undefined) {
           page = 1
         }
-        getArticleList({page: page, limit: 9}).then(res => {
+        //进行分类查询
+        let query = []
+        if (this.category !== 'All') {
+          query.push({key:"category", value:this.category})
+        }
+        getArticleList({page: page, limit: 9}, query).then(res => {
           this.articleList = res.data.elements
           this.current = res.data.currentPage
           this.pages = res.data.totalPages
           this.total = res.data.totalNumber
-        })
+        });
       },
       getCoverUrl(imgId) {
         if (imgId === '' || imgId === undefined) {

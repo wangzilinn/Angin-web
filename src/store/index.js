@@ -4,6 +4,7 @@ import app from './modules/app'
 import externalApi from './modules/externalApi'
 import settings from './modules/settings'
 import user from './modules/user'
+import content from './modules/content'
 
 Vue.use(Vuex)
 
@@ -12,7 +13,8 @@ const store = new Vuex.Store({
     app,
     externalApi,
     settings,
-    user
+    user,
+    content
   },
   getters : {
     sidebar: state => state.app.sidebar,
@@ -21,7 +23,8 @@ const store = new Vuex.Store({
     avatar: state => state.user.avatar,
     name: state => state.user.name,
     imgApi: state => state.externalApi.imgApi,
-    swaggerApi: state => state.api.swaggerApi
+    swaggerApi: state=>state.externalApi.swaggerApi,
+    category:state => state.content.category
   }
 })
 

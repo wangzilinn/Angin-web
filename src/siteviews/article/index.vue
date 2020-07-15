@@ -7,7 +7,7 @@
         <div class="post-data">
           <time v-if="article.editTime" itemprop="datePublished">This article was published in {{article.editTime}}
           </time>
-          under the <a href="#">{{article.categoryName}} category</a>
+          under the <a href="#">{{article.categoryName}} content</a>
         </div>
       </div>
       <div class="post-content" itemprop="articleBody">
