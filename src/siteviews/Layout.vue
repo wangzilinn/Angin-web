@@ -129,6 +129,7 @@
             //将过来的分类转换为搜索框能够接受的value属性
             this.categoriesList.push({"value":item.name})
           })
+          //加一个全部显示的类
           this.categoriesList.push({"value":'All'})
         })
         getGithubInfo('wangzilinn').then(res => {

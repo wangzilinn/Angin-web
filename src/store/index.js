@@ -24,7 +24,8 @@ const store = new Vuex.Store({
     name: state => state.user.name,
     imgApi: state => state.externalApi.imgApi,
     swaggerApi: state=>state.externalApi.swaggerApi,
-    category:state => state.content.category
+    category:state => state.content.category,
+    tag:state => state.content.tag
   }
 })
 
