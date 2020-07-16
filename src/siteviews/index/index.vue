@@ -2,8 +2,15 @@
   <div class="index-page main-content">
     <div class="post-lists">
       <el-row type="flex" justify="center">
-          <el-button :key="tag.name" v-for="tag in tagList" @click="handleClickTag(tag)" size="mini">{{tag.name}}</el-button>
-        <el-button v-if="this.tag!==undefined" icon="el-icon-delete" size="mini" circle @click="handleDeleteTag"></el-button>
+        <div v-if="this.currentTag === undefined">
+          <el-button :key="tag.name" v-for="tag in tagList" @click="handleClickTag(tag)" size="mini">{{tag.name}}
+          </el-button>
+        </div>
+        <div v-else>
+          <el-button size="mini">{{currentTag.name}}</el-button>
+          <el-button icon="el-icon-delete" size="mini" circle
+                     @click="handleDeleteTag"></el-button>
+        </div>
       </el-row>
       <div class="post-lists-body">
         <div class="post-list-item" v-if="articleList == null || articleList.length === 0">
@@ -26,8 +33,8 @@
               <div class="item-meta clearfix">
                 <div class="item-meta-ico bg-ico-code"
                      style="background: url(/bg-ico.png) no-repeat;background-size: 40px auto;"></div>
-                <div class="item-meta-cat">{{refreshCategory}}</div>
-                <!--<div class="item-meta-cat"><a href="https://www.linpx.com/c/tutorials/">{{refreshTag}}</a></div>-->
+                <!--<div class="item-meta-cat">{{//refreshCategory}}</div>-->
+                <div class="item-meta-cat"><a href="">{{refreshCategory}}</a></div>
               </div>
             </div>
           </div>
@@ -36,14 +43,14 @@
     </div>
     <div class="lists-navigator clearfix">
       <ol class="page-navigator">
-        <li v-if="current > 1" class="prev">
-          <router-link :to="'/page/' + (current - 1)">←</router-link>
+        <li v-if="currentPage > 1" class="prev">
+          <el-button @click="handleClickPage(currentPage -1 )">←</el-button>
         </li>
-        <li v-for="i in pages" :class="current === i ? 'current' : ''">
-          <router-link :to="'/page/' + i">{{i}}</router-link>
+        <li v-for="i in pages" :class="currentPage === i ? 'current' : ''">
+          <el-button @click="handleClickPage(i)">{{i}}</el-button>
         </li>
-        <li v-if="current < pages" class="next">
-          <router-link :to="'/page/' + (current + 1)">→</router-link>
+        <li v-if="currentPage < pages" class="next">
+          <el-button @click="handleClickPage(currentPage + 1 )">→</el-button>
         </li>
       </ol>
     </div>
@@ -58,89 +65,110 @@
   export default {
     name: "index",
     computed: {
-      //...是把imgApi混入当前对象
+      //...是把属性混入当前对象
       ...mapGetters([
         'imgApi',
         'category',
-        'tag'
+        'query'
       ]),
       refreshCategory() {
-        console.log("refreshCategory")
-        console.log(this.category)
-        this.current = 1
-        this.fetchData(1)
         return this.category
       },
-      //refreshTag() {
-      //  console.log("refreshTag")
-      //  this.fetchData()
-      //  return this.tag
-      //}
+    },
+    watch: {
+      category: function (val, oldVal) {
+        //类型页改变,重新配置tag等信息
+        console.log("watch category")
+        console.log(`new ${val}`)
+        console.log(`old ${oldVal}`)
+        if (val === undefined) {
+          return
+        }
+        this.resetPageAndQuery()
+        this.fetchData()
+      },
+      query: function (val, oldVal) {
+        //layout进行了标题模糊查询
+        console.log("watch query")
+        console.log(`new ${val}`)
+        if (val === undefined) {
+          return
+        }
+        //重置本页信息
+        this.resetPageAndQuery();
+        this.tagList = []
+        this.currentTitle = val
+        this.fetchData()
+      }
     },
     data() {
       return {
         articleList: [],
-        tagList:[],
-        current: 1,
+        tagList: [],
+        currentTag: undefined,
+        //模糊搜索标题用
+        currentTitle: undefined,
+        currentPage: 1,
         pages: 1,
         total: 1,
       }
     },
     created() {
-      console.log(this.category)
-      console.log(this.tag)
-      console.log("fetchData")
+      console.log("created")
       this.fetchData()
     },
     methods: {
+      resetPageAndQuery() {
+        this.currentPage = 1
+        this.pages = 1
+        this.total = 1
+        this.currentTag = undefined
+        this.currentTitle = undefined
+      },
+      handleClickPage(pageNum) {
+        this.currentPage = pageNum
+        this.fetchData()
+      },
       handleClickTag(item) {
-        console.log(item)
         console.log("handleClickTag")
-        this.$store.dispatch('content/setTag', item)
+        console.log(item)
+        this.resetPageAndQuery()
+        this.currentTag = item
+        this.fetchData()
       },
       handleDeleteTag(item) {
         console.log("handleDeleteTag")
         console.log(item)
-        this.$store.dispatch('content/setTag', undefined)
+        this.resetPageAndQuery()
+        this.fetchData()
       },
-      fetchData(page) {
+      fetchData() {
         console.log("fetchData")
-        this.articleList = []
-        if (page === undefined) {
-          page = this.$route.params.page
-          if (page === undefined) {
-            page = 1
-          }
-          this.current = page;
-        }
-        //进行分类查询
+        console.log(this.refreshCategory)
+
         let query = []
-        if (this.category !== 'All') {
-          query.push({key:"category", value:this.category})
+        //如果当前是模糊标题查询,则直接查询,不管分类和tag
+        if (this.currentTitle !== undefined) {
+          query.push({key: "title", value: this.currentTitle})
+        } else {
+          //进行分类查询
+          if (this.category !== 'All') {
+            query.push({key: "category", value: this.category});
+          }
+          //当选定了特定标签时:
+          if (this.currentTag !== undefined) {
+            query.push({key: "tag", value: this.currentTag.name})
+          } else {
+            //当未选定标签时
+            getTagList(query).then(res => {
+              console.log("getTagList")
+              console.log(res.data)
+              this.tagList = res.data
+            })
+          }
         }
-        console.log("1")
-        if (this.tag !== undefined) {
-          this.tagList = []
-          query.push({key:"tag", value:this.tag.name})
-          console.log("before push")
-          console.log(this.tagList)
-          console.log("before push")
-          console.log(this.tag)
-          console.log("before push")
-          this.tagList.push(this.tag)
-          console.log("after push")
-          console.log(this.tagList)
-        }else {
-          console.log("3")
-          getTagList(query).then(res=>{
-            console.log("4")
-            console.log(res.data)
-            this.tagList = res.data
-          })
-        }
-        console.log("5")
-        console.log(query)
-        getArticlePage({page: this.current, limit: 9}, query).then(res => {
+        this.articleList = []
+        getArticlePage({page: this.currentPage, limit: 9}, query).then(res => {
           this.articleList = res.data.elements
           this.pages = res.data.totalPages
           this.total = res.data.totalNumber
