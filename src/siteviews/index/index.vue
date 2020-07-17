@@ -1,7 +1,7 @@
 <template>
   <div class="index-page main-content">
     <div class="post-lists">
-      <el-row type="flex" justify="center">
+      <el-row v-if="this.category!== 'All'" type="flex" justify="center">
         <div v-if="this.currentTag === undefined">
           <el-button :key="tag.name" v-for="tag in tagList" @click="handleClickTag(tag)" size="mini">{{tag.name}}
           </el-button>
@@ -33,8 +33,14 @@
               <div class="item-meta clearfix">
                 <div class="item-meta-ico bg-ico-code"
                      style="background: url(/bg-ico.png) no-repeat;background-size: 40px auto;"></div>
-                <!--<div class="item-meta-cat">{{//refreshCategory}}</div>-->
-                <div class="item-meta-cat"><a href="">{{item.categoryName}}</a></div>
+                <div class="item-meta-cat">
+                  <a href="">
+                    {{item.categoryName}}->
+                    <span v-for="tag in item.tagNames">
+                    {{tag}}
+                  </span>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -52,16 +58,16 @@
         <!--<li v-if="currentPage < pages" class="next">-->
         <!--  <el-button class="page" @click="handleClickPage(currentPage + 1 )">→</el-button>-->
         <!--</li>-->
-          <el-pagination
-            :current-page="currentPage"
-            :total="total"
-            @pre-click="(page) => handleClickPage(page - 1 )"
-            @next-click="(page) => handleClickPage(page + 1 )"
-            @current-change="(page) => handleClickPage(page)"
-            prev-text="←"
-            next-text="→"
-            layout="prev, pager, next">
-          </el-pagination>
+        <el-pagination
+          :current-page="currentPage"
+          :total="total"
+          @pre-click="(page) => handleClickPage(page - 1 )"
+          @next-click="(page) => handleClickPage(page + 1 )"
+          @current-change="(page) => handleClickPage(page)"
+          prev-text="←"
+          next-text="→"
+          layout="prev, pager, next">
+        </el-pagination>
       </ol>
 
     </div>
@@ -206,7 +212,7 @@
   }
 
   .page {
-    border:0
+    border: 0
   }
 
   .el-tag {
