@@ -34,7 +34,7 @@
                 <div class="item-meta-ico bg-ico-code"
                      style="background: url(/bg-ico.png) no-repeat;background-size: 40px auto;"></div>
                 <!--<div class="item-meta-cat">{{//refreshCategory}}</div>-->
-                <div class="item-meta-cat"><a href="">{{refreshCategory}}</a></div>
+                <div class="item-meta-cat"><a href="">{{item.categoryName}}</a></div>
               </div>
             </div>
           </div>
@@ -43,17 +43,29 @@
     </div>
     <div class="lists-navigator clearfix">
       <ol class="page-navigator">
-        <li v-if="currentPage > 1" class="prev">
-          <el-button @click="handleClickPage(currentPage -1 )">←</el-button>
-        </li>
-        <li v-for="i in pages" :class="currentPage === i ? 'current' : ''">
-          <el-button @click="handleClickPage(i)">{{i}}</el-button>
-        </li>
-        <li v-if="currentPage < pages" class="next">
-          <el-button @click="handleClickPage(currentPage + 1 )">→</el-button>
-        </li>
+        <!--<li v-if="currentPage > 1" class="prev">-->
+        <!--  <el-button class="page" @click="handleClickPage(currentPage -1 )">←</el-button>-->
+        <!--</li>-->
+        <!--<li v-for="i in pages" :class="currentPage === i ? 'current' : ''">-->
+        <!--  <el-button class="page" @click="handleClickPage(i)">{{i}}</el-button>-->
+        <!--</li>-->
+        <!--<li v-if="currentPage < pages" class="next">-->
+        <!--  <el-button class="page" @click="handleClickPage(currentPage + 1 )">→</el-button>-->
+        <!--</li>-->
+          <el-pagination
+            :current-page="currentPage"
+            :total="total"
+            @pre-click="(page) => handleClickPage(page - 1 )"
+            @next-click="(page) => handleClickPage(page + 1 )"
+            @current-change="(page) => handleClickPage(page)"
+            prev-text="←"
+            next-text="→"
+            layout="prev, pager, next">
+          </el-pagination>
       </ol>
+
     </div>
+
   </div>
 </template>
 
@@ -71,9 +83,6 @@
         'category',
         'query'
       ]),
-      refreshCategory() {
-        return this.category
-      },
     },
     watch: {
       category: function (val, oldVal) {
@@ -196,6 +205,10 @@
     margin-top: 10px;
   }
 
+  .page {
+    border:0
+  }
+
   .el-tag {
     background-color: white;
     color: #956038;
@@ -203,6 +216,11 @@
     margin-top: 10px;
     margin-left: 5px;
     margin-right: 5px;
+  }
+
+  .el-button {
+    margin-right: 5px;
+    margin-left: 5px;
   }
 </style>
 
