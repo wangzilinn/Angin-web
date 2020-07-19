@@ -19,7 +19,7 @@
         ></el-autocomplete>
         <!--<div class="item-meta-ico bg-ico-book"/>-->
         <div class="navbar-menu">
-          <a href="/login" v-if="name">{{name}}</a>
+          <a href="" v-if="name">{{name}}</a>
           <a href="/logout" v-if="name">Logout</a>
           <a href="/login" v-else>Login</a>
           <a href="/about">About</a>
@@ -27,7 +27,7 @@
         <div class="navbar-mobile-menu" onclick="">
           <span class="icon-menu cross"><span class="middle"></span></span>
           <ul>
-            <a href="/login" v-if="name">{{name}}</a>
+            <a href="" v-if="name">{{name}}</a>
             <a href="/logout" v-if="name">Logout</a>
             <a href="/login" v-else>Login</a>
             <a href="/about">About</a>

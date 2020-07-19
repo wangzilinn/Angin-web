@@ -33,7 +33,7 @@ import SiteLayout from '@/siteviews/Layout'
  */
 export const constantRoutes = [
   {
-    path: '/user',
+    path: '/login',
     component: () => import('@/dashboardviews/login/index'),
     hidden: true
   },
