@@ -1,35 +1,37 @@
 <template>
 
   <div class="content-index">
-    <article class="main-content page-page">
-      <div class="post-header">
-        <h1 class="post-title" itemprop="name headline"> {{article.title}} </h1>
-        <div class="post-data">
-          <time v-if="article.editTime" itemprop="datePublished">This article was published in {{article.editTime}}
-          </time>
-          under the <a href="#">{{article.categoryName}} content</a>
+
+    <el-row>
+      <el-col :span="6">dsa</el-col>
+      <el-col :span="12"><article class="main-content page-page">
+        <div class="post-header">
+          <h1 class="post-title" itemprop="name headline"> {{article.title}} </h1>
+          <div class="post-data">
+            <time v-if="article.editTime" itemprop="datePublished">This article was published in {{article.editTime}}
+            </time>
+            under the <a href="#">{{article.categoryName}} content</a>
+          </div>
         </div>
-      </div>
-      <div class="post-content" itemprop="articleBody">
-        <p class="post-tags" v-if="article.tagNames != null">
-          <a v-for="tagName in article.tagNames" href="#">{{tagName}}</a>
-        </p>
+        <div class="post-content" itemprop="articleBody">
+          <p class="post-tags" v-if="article.tagNames != null">
+            <a v-for="tagName in article.tagNames" href="#">{{tagName}}</a>
+          </p>
 
-        <div id="post-content" v-html="article.content" ref="content"></div>
+          <div id="post-content" v-html="article.content" ref="content"></div>
 
-        <p class="post-info">
-          本文由 <a href="/">{{article.author}}</a> 创作，采用
-          <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="external nofollow">知识共享署名4.0</a>
-          国际许可协议进行许可<br>本站文章除注明转载/出处外，均为本站原创或翻译，转载前请务必署名<br>最后编辑时间为: {{article.editTime}}
-        </p>
-      </div>
-    </article>
-
-    <div id="directory-content" class="directory-content initial headroom--not-bottom headroom--not-top pinned">
-      <div id="directory">
-      </div>
-    </div>
-
+          <p class="post-info">
+            本文由 <a href="/">{{article.author}}</a> 创作，采用
+            <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="external nofollow">知识共享署名4.0</a>
+            国际许可协议进行许可<br>本站文章除注明转载/出处外，均为本站原创或翻译，转载前请务必署名<br>最后编辑时间为: {{article.editTime}}
+          </p>
+        </div>
+      </article></el-col>
+      <el-col :span="6">    <div id="directory-content" class="directory-content initial headroom--not-bottom headroom--not-top" >
+        <div id="directory">
+        </div>
+      </div></el-col>
+    </el-row>
     <div @click="floatMenu" id="floatMenu">
       <a href="javascript:;" class="btn-goTop"></a>
     </div>
@@ -228,7 +230,6 @@
           var postChildren = function (childNodes, reg) {
             var result = [];
             getAllHeadings(childNodes, reg, result)
-            console.log(result)
             return result;
           }
           var createPostDirectory = function (article, directory, isDirNum) {
@@ -344,5 +345,8 @@
     padding: 0;
     background-color: white;
     font-size: 1rem;
+  }
+  #directory {
+    position: relative;
   }
 </style>
