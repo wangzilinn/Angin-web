@@ -118,7 +118,7 @@
       if (this.name === ``)
         anonymous = true
       return {
-        article: {},
+        article: null,
         comments: {},
         form: {},
         currentCommentPage: 1,
@@ -131,8 +131,8 @@
     },
     mounted() {
       setTimeout(() => {
-        this.init();
-      }, 400)
+        this.initDirectory();
+      }, 1000)
     },
     methods: {
       //页面加载时调用
@@ -211,7 +211,7 @@
         this.form.avatar = ''
       },
 
-      init() {
+      initDirectory() {
         //生成右侧目录导航
         var postDirectoryBuild = function () {
           var getAllHeadings = function (dom, reg, result) {
@@ -347,6 +347,10 @@
     font-size: 1rem;
   }
   #directory {
+    margin-left: 30px;
     position: relative;
+  }
+  #directory-content {
+    text-align: left;
   }
 </style>
