@@ -21,7 +21,7 @@ router.beforeEach(async(to, from, next) => {
   const hasToken = getToken()
 
   if (hasToken) {
-    if (to.path === '/user') {
+    if (to.path === '/login') {
       // if is logged in, redirect to the home page
       next({ path: '/' })
       NProgress.done()
@@ -54,9 +54,11 @@ router.beforeEach(async(to, from, next) => {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        next(`/login?redirect=${to.path}`)
-      }).catch(() => {
+        //如果点击确认按钮,则继续进入到login页面
         next()
+      }).catch(() => {
+        //否则退回主页
+        next('/')
       });
       NProgress.done()
     }
