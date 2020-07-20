@@ -214,39 +214,20 @@
         var postDirectoryBuild = function () {
           var getAllHeadings = function (dom, reg, result) {
             var len = dom.length;
-            //var d = null;
             var node;
             for (var i = 0; i < len; i++) {
               node = dom[i];
-              //console.log(node);
-              //
-              //node = childNodes[i];
               if (reg.test(node.tagName.toLowerCase())) {
                 result.push(node);
               }
-              //
               if (node.children) {
                 getAllHeadings(node.children, reg, result);
               }
             }
           }
-          var postChildren = function children(childNodes, reg) {
-            var result = [],
-              isReg = typeof reg === 'object',
-              isStr = typeof reg === 'string',
-              node, i, len;
-            console.log("0")
+          var postChildren = function (childNodes, reg) {
+            var result = [];
             getAllHeadings(childNodes, reg, result)
-            //for (i = 0, len = childNodes.length; i < len; i++) {
-            //  node = childNodes[i];
-            //  if ((node.nodeType === 1 || node.nodeType === 9) &&
-            //    (!reg ||
-            //      isReg && reg.test(node.tagName.toLowerCase()) ||
-            //      isStr && node.tagName.toLowerCase() === reg)) {
-            //    result.push(node);
-            //  }
-            //}
-            //console.log("1")
             console.log(result)
             return result;
           }
@@ -266,8 +247,10 @@
                 id = 'directory' + (Math.random() + '').replace(/\D/, ''),
                 lastRevNum, num, elem;
               while (titleElem.length) {
+                //shift()移除第一个元素
                 elem = titleElem.shift();
-                contentArr.push(elem.innerHTML);
+                //在word中自带的章节标题号需要被删掉:/^\d.* /
+                contentArr.push(elem.innerHTML.replace(/^\d.* /, ''))
                 num = +elem.tagName.match(/\d/)[0];
                 if (num > lastNum) {
                   levelArr.push(1);
