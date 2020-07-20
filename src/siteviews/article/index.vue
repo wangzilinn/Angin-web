@@ -212,20 +212,42 @@
       init() {
         //生成右侧目录导航
         var postDirectoryBuild = function () {
+          var getAllHeadings = function (dom, reg, result) {
+            var len = dom.length;
+            //var d = null;
+            var node;
+            for (var i = 0; i < len; i++) {
+              node = dom[i];
+              //console.log(node);
+              //
+              //node = childNodes[i];
+              if (reg.test(node.tagName.toLowerCase())) {
+                result.push(node);
+              }
+              //
+              if (node.children) {
+                getAllHeadings(node.children, reg, result);
+              }
+            }
+          }
           var postChildren = function children(childNodes, reg) {
             var result = [],
               isReg = typeof reg === 'object',
               isStr = typeof reg === 'string',
               node, i, len;
-            for (i = 0, len = childNodes.length; i < len; i++) {
-              node = childNodes[i];
-              if ((node.nodeType === 1 || node.nodeType === 9) &&
-                (!reg ||
-                  isReg && reg.test(node.tagName.toLowerCase()) ||
-                  isStr && node.tagName.toLowerCase() === reg)) {
-                result.push(node);
-              }
-            }
+            console.log("0")
+            getAllHeadings(childNodes, reg, result)
+            //for (i = 0, len = childNodes.length; i < len; i++) {
+            //  node = childNodes[i];
+            //  if ((node.nodeType === 1 || node.nodeType === 9) &&
+            //    (!reg ||
+            //      isReg && reg.test(node.tagName.toLowerCase()) ||
+            //      isStr && node.tagName.toLowerCase() === reg)) {
+            //    result.push(node);
+            //  }
+            //}
+            //console.log("1")
+            console.log(result)
             return result;
           }
           var createPostDirectory = function (article, directory, isDirNum) {
@@ -234,7 +256,8 @@
               levelArr, root, level,
               currentList, list, li, link, i, len;
             levelArr = (function (article, contentArr, titleId) {
-              var titleElem = postChildren(article.childNodes, /^h\d$/),
+              //正则:^h->匹配开始为h, \d$->匹配结尾为数字
+              var titleElem = postChildren(article.children, /^h\d$/),
                 levelArr = [],
                 lastNum = 1,
                 lastRevNum = 1,
