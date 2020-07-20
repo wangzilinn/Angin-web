@@ -130,9 +130,13 @@
       this.fetchData()
     },
     mounted() {
-      setTimeout(() => {
-        this.initDirectory();
-      }, 1000)
+      var barrageTimer = setInterval(() => {
+        if (this.initDirectory()) {
+          clearInterval(barrageTimer)
+          console.log("更新成功")
+        }
+        console.log("未获取到文章内容,等待中")
+      }, 400)
     },
     methods: {
       //页面加载时调用
@@ -302,9 +306,15 @@
             }
             directory.appendChild(root);
           };
-          createPostDirectory(document.getElementById('post-content'), document.getElementById('directory'), true);
+          var articleDOM = document.getElementById('post-content')
+          if (articleDOM.children){
+            createPostDirectory(articleDOM, document.getElementById('directory'), true);
+            return true
+          }else {
+            return false
+          }
         };
-        postDirectoryBuild();
+        return postDirectoryBuild();
       },
 
       floatMenu() {
