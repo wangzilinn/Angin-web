@@ -62,7 +62,7 @@
                 </p>
                 <p>Theme is inspired by <a href="https://github.com/chakhsu/pinghsu" target="_blank">Pinghsu</a></p>
                 <p>© 2020 <a href="https://zilinn.wang/">Wang zilin</a></p>
-                <p><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=20012505">蜀ICP备20012505号-1</a>
+                <p><a href="http://www.beian.miit.gov.cn">蜀ICP备20012505号-1</a>
                 </p>
               </div>
             </div>

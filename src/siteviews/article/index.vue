@@ -3,7 +3,7 @@
   <div class="content-index">
 
     <el-row>
-      <el-col :span="6">dsa</el-col>
+      <el-col :span="6">哈!你发现这里了</el-col>
       <el-col :span="12"><article class="main-content page-page">
         <div class="post-header">
           <h1 class="post-title" itemprop="name headline"> {{article.title}} </h1>
@@ -136,7 +136,7 @@
           console.log("更新成功")
         }
         console.log("未获取到文章内容,等待中")
-      }, 400)
+      }, 1000)
     },
     methods: {
       //页面加载时调用
