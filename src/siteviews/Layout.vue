@@ -61,14 +61,14 @@
                   style="color: rgb(191, 60, 175);">+</span><span style="color: rgb(226, 183, 47);">`</span>
                 </p>
                 <p>Theme is inspired by <a href="https://github.com/chakhsu/pinghsu" target="_blank">Pinghsu</a></p>
-                <p>© 2020 <a href="https://zilinn.wang/">Wang zilin</a></p>
+                <p>© 2020 <a href="https://zilinn.wang/">Wang zilin</a><
                 <p><a href="http://www.beian.miit.gov.cn">蜀ICP备20012505号-1</a>
                 </p>
               </div>
             </div>
           </div>
           <div class="meta-item meta-posts">
-            <canvas id="github-contribution-map"/>
+            <canvas id="github-contribution-map" />
           </div>
         </div>
       </div>

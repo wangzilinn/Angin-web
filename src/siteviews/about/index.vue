@@ -8,14 +8,19 @@
       </div>
       <div id="post-content" class="post-content">
         <h3>Hello</h3>
-        <p>我是王子林, 四川大学计算机学院研究生</p>
+        <p>我是王子林, 四川大学计算机学院硕士研究生</p>
         <p>喜欢古典音乐,喜欢猫咪,<strong>超级喜欢自己的女朋友,我们在一起已经{{togetherDays}}天啦!</strong></p>
-        <p>本科阶段一直在嵌入式的坑里面挣扎, 忙于各种比赛, 研究生阶段转向了向上层应用, 发现又是一个大坑</p>
+        <p>本科阶段一直在嵌入式的坑里面挣扎, 忙于各种比赛, 研究生阶段转向了上层应用, 发现又是一个大坑</p>
         <p>目前我的研究方向是NILM, 期望能发好的论文出来</p>
         <p>还在涉猎一个小方向, 嵌入式神经网络, 感觉可以做出很有意思的应用</p>
-        <h3>关于Blog</h3>
+        <h3>关于Angin Blog</h3>
+        <p>Angin是自己和女朋友名字的拼音每一位都进行与运算后, 合并相同相邻字符得来的</p>
         <p>这个Blog是从<a href="https://github.com/TyCoding/tumo" target="_blank">Tumo</a>获得的灵感, 从头开始学Vue, 一点一点搭建而成的</p>
         <p>前端是Vue, 后端是Spring全家桶</p>
+        <P>首页显示的图片是从<a href="https://artuk.org/">ArtUK</a>中爬取的的4661张图片中随机选择的, 爬虫代码见<a
+          href="https://github.com/wangzilinn/Angin-backend">github</a></P>
+        <p>首页下方显示的github map使用了修改后的github-contributions-canvas,其源码见<a
+          href="https://github.com/sallar/github-contributions-canvas">github</a></p>
         <p>由于将来很有可能从事后端工作, 本着学习的目的, 后端的框架用的会多一些,包括但不限于</p>
         <ul>
           <li>spring boot</li>
