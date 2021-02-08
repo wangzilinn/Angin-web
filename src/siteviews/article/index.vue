@@ -3,8 +3,8 @@
   <div class="content-index">
 
     <el-row>
-      <el-col :span="6">哈!你发现这里了</el-col>
-      <el-col :span="12"><article class="main-content page-page">
+      <el-col :xs="1" :sm="1" :md="6" :lg="6" :xl="6">miao!</el-col>
+      <el-col :xs="22" :sm="22" :md="12" :lg="12" :xl="12"><article class="main-content page-page">
         <div class="post-header">
           <h1 class="post-title" itemprop="name headline"> {{article.title}} </h1>
           <div class="post-data">
@@ -27,7 +27,7 @@
           </p>
         </div>
       </article></el-col>
-      <el-col :span="6">    <div id="directory-content" class="directory-content initial headroom--not-bottom headroom--not-top" >
+      <el-col :xs="1" :sm="1" :md="6" :lg="6" :xl="6" >    <div id="directory-content" class="directory-content initial headroom--not-bottom headroom--not-top" >
         <div id="directory">
         </div>
       </div></el-col>
