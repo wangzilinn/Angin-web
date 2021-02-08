@@ -11,9 +11,10 @@ import '@/styles/index.scss' // global css
 import App from './App'
 import store from './store'
 import router from './router'
-
+import Meta from 'vue-meta'
 import '@/icons' // icon
 import '@/permission' // permission control
+Vue.use(Meta)
 
 // set ElementUI lang to EN
 Vue.use(ElementUI, { locale })

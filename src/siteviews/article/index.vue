@@ -18,7 +18,7 @@
             <a v-for="tagName in article.tagNames" href="#">{{tagName}}</a>
           </p>
 
-          <div id="post-content" v-html="article.content" ref="content"></div>
+            <div id="post-content" v-html="article.content" ref="content"></div>
 
           <p class="post-info">
             本文由 <a href="/">{{article.author}}</a> 创作，采用
@@ -30,12 +30,12 @@
       <el-col :xs="1" :sm="1" :md="6" :lg="6" :xl="6" >    <div id="directory-content" class="directory-content initial headroom--not-bottom headroom--not-top" >
         <div id="directory">
         </div>
-      </div></el-col>
+        <!--        <el-backtop id='test' target=".page-component__scroll .el-scrollbar__wrap"></el-backtop>-->
+      </el-col>
+      <div @click="floatMenu"  id="floatMenu">
+        <img src="@/assets/rocket.svg" style="width: 36px"/>
+      </div>
     </el-row>
-    <div @click="floatMenu" id="floatMenu">
-      <a href="javascript:;" class="btn-goTop"></a>
-    </div>
-
     <div id="respond-post-334" class="comment-container">
       <div id="comments" class="clearfix">
         <span class="title">Comments</span>
@@ -51,18 +51,19 @@
             v-for="(comment, index) in comments"
             :key="index"
             :timestamp="comment.date"
-            placement="top">
+            placement="top"
+          >
             <el-card>
               <div class="comment-header">
                 <img class="avatar" src="/user.png" width="80" height="80">
                 <span class="comment-author">
-                  <span v-if="comment.username">{{comment.username}}</span>
-                  <span v-else>匿名用户: {{comment.avatar}}</span>
+                  <span v-if="comment.username">{{ comment.username }}</span>
+                  <span v-else>匿名用户: {{ comment.avatar }}</span>
                   </span>
               </div>
               <div class="comment-content">
                 <span class="comment-author-at"></span>
-                <p>{{comment.content}}</p>
+                <p>{{ comment.content }}</p>
                 <p></p>
               </div>
               <div class="comment-meta">
@@ -77,7 +78,7 @@
         <div class="radio">
           <el-radio-group v-model="anonymous" @change="changeCommentRole">
             <el-radio :label="false">当前用户
-              <span v-if="this.name">: {{this.name}}</span>
+              <span v-if="this.name">: {{ this.name }}</span>
             </el-radio>
             <el-radio :label="true">匿名</el-radio>
           </el-radio-group>
@@ -87,10 +88,12 @@
           <input v-model="form.articleId = article.id" style="display: none;">
           <p v-if="anonymous">
             <input type="email" v-model="form.avatar" class="form-control input-control clearfix" placeholder="avatar"
-                   value="" required="">
+                   value="" required=""
+            >
           </p>
           <textarea v-model="form.content" class="form-control" placeholder="Your comment here. Be cool. "
-                    required=""></textarea>
+                    required=""
+          ></textarea>
           <button type="button" class="submit" @click="submit">SUBMIT</button>
         </form>
       </div>

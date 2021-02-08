@@ -2415,7 +2415,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
   right: 15px;
   bottom: 50px;
   width: 36px;
-  opacity: 0;
+  opacity: 100;
 }
 
 #floatMenu .btn-goTop {
