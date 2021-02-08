@@ -27,7 +27,8 @@
           </p>
         </div>
       </article></el-col>
-      <el-col :xs="1" :sm="1" :md="6" :lg="6" :xl="6" >    <div id="directory-content" class="directory-content initial headroom--not-bottom headroom--not-top" >
+      <el-col :xs="1" :sm="1" :md="6" :lg="6" :xl="6" >
+        <div id="directory-content" class="directory-content initial headroom--not-bottom headroom--not-top" />
         <div id="directory">
         </div>
         <!--        <el-backtop id='test' target=".page-component__scroll .el-scrollbar__wrap"></el-backtop>-->
